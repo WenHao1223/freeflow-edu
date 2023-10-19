@@ -5,9 +5,9 @@ const HomeNavbar = ({setUser}) => {
     return (
         <>
             <nav className='navbar'>
-                <NavLink to='/' className={ ({isActive}) => isActive ? 'link active' : 'link'}>
+                <NavLink to='/freeflow-edu/' className={ ({isActive}) => isActive ? 'link active' : 'link'}>
                     Home</NavLink>
-                <NavLink to='/profile' className={ ({isActive}) => isActive ? 'link active' : 'link'}>
+                <NavLink to='/freeflow-edu/profile' className={ ({isActive}) => isActive ? 'link active' : 'link'}>
                     Profile</NavLink>
             </nav>
 

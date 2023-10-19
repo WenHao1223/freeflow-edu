@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { Component } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 // shared components
@@ -25,43 +25,52 @@ const firebaseConfig = {
     measurementId: "G-VMWMHD4L2L"
 };
 
+// Initialize Firebase
+const firebaseApp = initializeApp(firebaseConfig);
+const firebaseAnalytics = getAnalytics(firebaseApp);
+
 // StyleSheet
 import './App.css'
 
-function App() {
-    const [user, setUser] = useState(null);
-    // const [user, setUser] = useState('ds');
+class App extends React.Component {
+    constructor(props) {
+        super(props);
 
-    // Initialize Firebase
-    const firebaseApp = initializeApp(firebaseConfig);
-    const firebaseAnalytics = getAnalytics(firebaseApp);
-
-    console.log(user);
-    
-    if (!user){
-        return (
-            <BrowserRouter>
-                <Routes>
-                    <Route exact path="/" element={<LoginNavbar/>}>
-                        <Route index element={<Login/>}/>
-                        <Route path="register" element={<Register/>}/>
-                    </Route>
-                </Routes>
-            </BrowserRouter>
-        );
-    } else {
-        return (
-            <BrowserRouter>
-                <Routes>
-                    <Route exact path="/" element={<HomeNavbar/>}>
-                        <Route index element={<Home/>}/>
-                        <Route path="profile" element={<Profile/>}/>
-                    </Route>
-                </Routes>
-            </BrowserRouter>
-        );
+        this.state = {
+            user: null
+        };
     }
-}
 
+    render() {
+        console.log(this.user);
+
+        if (!this.user){
+            
+            return (
+                <BrowserRouter>
+                    <Routes>
+                        <Route exact path="/freeflow-edu" element={<LoginNavbar/>}>
+                            <Route index active element={<Login/>}/>
+                            <Route path="register" element={<Register/>}/>
+                        </Route>
+                    </Routes>
+                </BrowserRouter>
+            );
+        } else {
+            return (
+                <BrowserRouter>
+                    <Routes>
+                        <Route exact path="/freeflow-edu" element={<HomeNavbar/>}>
+                            <Route index active element={<Home/>}/>
+                            <Route path="profile" element={<Profile/>}/>
+                        </Route>
+                    </Routes>
+                </BrowserRouter>
+            );
+        }
+
+    }
+    
+}
 
 export default App;
