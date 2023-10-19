@@ -37,21 +37,30 @@ class App extends React.Component {
         super(props);
 
         this.state = {
-            user: null
+            user: "cd"
         };
     }
 
-    render() {
-        console.log(this.user);
+    updateState(props){
+        console.log(props);
+        this.setState({
+            user: props
+        });
+        console.log(this.state.user);
+    }
 
-        if (!this.user){
+    render() {
+        
+        console.log(this.state.user);
+
+        if (this.state.user){
             
             return (
                 <BrowserRouter>
                     <Routes>
                         <Route exact path="/freeflow-edu" element={<LoginNavbar/>}>
                             <Route index active element={<Login/>}/>
-                            <Route path="register" element={<Register/>}/>
+                            <Route path="register" element={<Register updateState={this.updateState} user={this.state.user}/>}/>
                         </Route>
                     </Routes>
                 </BrowserRouter>
