@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react'
-import { BrowserRouter, Routes, Route, redirect} from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 // shared components
 import LoginNavbar from './sharedComponents/loginNavbar';
@@ -39,7 +39,8 @@ class App extends Component {
         super(props);
 
         this.state = {
-            user: null
+            user: null,
+            credential: null
         };
     }
 
@@ -49,20 +50,28 @@ class App extends Component {
         });
 
         console.log(this.state);
-        console.log("State updated!");
+    }
+
+    updateCredentialState = (data) => {
+        this.setState({
+            credential: data
+        });
+
+        console.log(this.state);
     }
 
     render() {
         
         console.log(this.state.user);
 
-        if (!this.state.user){
+        if (!(this.state.user || localStorage.getItem("user"))){
+            alert("Session has ended. Login again.");
             return (
                 <BrowserRouter>
                     <Routes>
                         <Route exact path="/freeflow-edu" element={<LoginNavbar/>}>
-                            <Route index active element={<Login state={this.state} updateUserState={this.updateUserState}/>}/>
-                            <Route path="register" element={<Register state={this.state} updateUserState={this.updateUserState}/>}/>
+                            <Route index active element={<Login state={this.state} updateUserState={this.updateUserState} updateCredentialState={this.updateCredentialState}/>}/>
+                            <Route path="register" element={<Register state={this.state} updateUserState={this.updateUserState} updateCredentialState={this.updateCredentialState}/>}/>
                             <Route path="sign-out" element={<SignOut/>}/>
                             <Route path="*" element={<Error/>}/>
                         </Route>
@@ -70,6 +79,13 @@ class App extends Component {
                 </BrowserRouter>
             );
         } else {
+            console.log(this.state.user);
+            console.log(this.state.credential);
+
+            if (this.state.user.metadata.creationTime === this.state.user.metadata.lastSignInTime) {
+                console.log("first-time user");
+            }
+
             return (
                 <BrowserRouter>
                     <Routes>

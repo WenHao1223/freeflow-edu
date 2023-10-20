@@ -27,6 +27,8 @@ class SignOut extends Component {
                 console.log(error);
             });
 
+        localStorage.clear();
+
     }
 
     render() {

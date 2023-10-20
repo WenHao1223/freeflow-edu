@@ -2,13 +2,14 @@ import React, { Component, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 
 // firebase
-import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 class Register extends Component { 
     constructor(props) {
         super(props);
 
         this.updateUserState = props.updateUserState;
+        this.updateCredentialState = props.updateCredentialState;
         
         this.state = props.state;
         this.setState = this.setState.bind(this);
@@ -22,7 +23,7 @@ class Register extends Component {
     }
 
     bRegister = () => {
-        if($("#t_email").val() != "" && $("#t_password").val() != "" && $("#t_confirm_password").val() != "" && $("#t_otp").val() != ""){
+        if($("#t_email").val() != "" && $("#t_username").val() != "" && $("#t_password").val() != "" && $("#t_confirm_password").val() != "" && $("#t_otp").val() != ""){
             if($("#t_password").val() == $("#t_confirm_password").val()){
                 if(document.getElementById("c_privacy").checked){
                     const auth = getAuth();
@@ -31,12 +32,32 @@ class Register extends Component {
                     createUserWithEmailAndPassword(auth, email, password)
                         .then((userCredential) => {
                             const user = userCredential.user;
+                            const username = $("#t_username").val();
+
+                            updateProfile(auth.currentUser, {
+                                displayName: username
+                            }).then((result) => {
+                                console.log(result);
+                            })
+                            .catch((error) => {
+                                const errorCode = error.code;
+                                const errorMessage = error.message;
+                                console.log({errorCode, errorMessage});
+                            })
 
                             this.setState({
-                                user: user
+                                user: user,
+                                credential: credential
                             });
                             
                             this.props.updateUserState(user);
+                            this.props.updateCredentialState(userCredential);
+
+                            if(document.getElementById("c_rmb_me").checked){
+                                localStorage.setItem("user", user.accessToken);
+                                localStorage.setItem("displayName", username);
+                                localStorage.setItem("email", user.email);
+                            }
                         })
                         .catch((error) => {
                             const errorCode = error.code;
@@ -75,10 +96,18 @@ class Register extends Component {
                     const email = result.user.email;
     
                     this.setState({
-                        user: user
+                        user: user,
+                        credential: credential
                     });
 
                     this.props.updateUserState(user);
+                    this.props.updateCredentialState(credential);
+
+                    if(document.getElementById("c_rmb_me").checked){
+                        localStorage.setItem("user", user.accessToken);
+                        localStorage.setItem("displayName", user.displayName);
+                        localStorage.setItem("email", user.email);
+                    }
             
                 }).catch((error) => {
                     const errorCode = error.code;
@@ -162,10 +191,10 @@ class Register extends Component {
                         <input onKeyUp={this.handleKeyPress} type="text" name="" id="t_email" />
                     </label>
                     <br/>
-                    {/* <label> Username: 
+                    <label> Username: 
                         <input onKeyUp={this.handleKeyPress} type="text" name="" id="t_username" />
                     </label>
-                    <br/> */}
+                    <br/>
                     <label> Password: 
                         <input onKeyUp={this.handleKeyPress} type="password" name="" id="t_password" />
                     </label>
@@ -180,8 +209,13 @@ class Register extends Component {
                     </label> */}
                     <br/>
                     <label>
-                        <input type="checkbox" name="" id="c_privacy" />
+                        <input onKeyUp={this.handleKeyPress} type="checkbox" name="" id="c_privacy" />
                         I agree to the Privacy Policy, and Terms and Conditions of FreeFlow Edu app.
+                    </label>
+                    <br/>
+                    <label>
+                        <input type="checkbox" name="" id="c_rmb_me" />
+                        Remember me
                     </label>
                     <br/>
                     <button onClick={this.bRegister}>Register</button>

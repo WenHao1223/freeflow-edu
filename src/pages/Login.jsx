@@ -2,13 +2,14 @@ import React, { Component, useState } from "react";
 import { Link } from "react-router-dom";
 
 // firebase
-import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, signInWithEmailAndPassword, signInAnonymously } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, signInWithEmailAndPassword, signInAnonymously, updateProfile } from "firebase/auth";
 
 class Login extends Component {
     constructor(props) {
         super(props);
 
         this.updateUserState = props.updateUserState;
+        this.updateCredentialState = props.updateCredentialState;
         
         this.state = props.state;
         this.setState = this.setState.bind(this);
@@ -29,12 +30,21 @@ class Login extends Component {
             signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     const user = userCredential.user;
+                    const credential = userCredential;
 
                     this.setState({
-                        user: user
+                        user: user,
+                        credential: credential
                     });
     
                     this.props.updateUserState(user);
+                    this.props.updateCredentialState(credential);
+                    
+                    if(document.getElementById("c_rmb_me").checked){
+                        localStorage.setItem("user", user.accessToken);
+                        localStorage.setItem("displayName", user.displayName);
+                        localStorage.setItem("email", user.email);
+                    }
 
                 })
                 .catch((error) => {
@@ -68,10 +78,18 @@ class Login extends Component {
                 const email = result.user.email;
 
                 this.setState({
-                    user: user
+                    user: user,
+                    credential: credential
                 });
 
                 this.props.updateUserState(user);
+                this.props.updateCredentialState(credential);
+                
+                if(document.getElementById("c_rmb_me").checked){
+                    localStorage.setItem("user", user.accessToken);
+                    localStorage.setItem("displayName", user.displayName);
+                    localStorage.setItem("email", user.email);
+                }
         
             }).catch((error) => {
                 const errorCode = error.code;
@@ -85,12 +103,32 @@ class Login extends Component {
         signInAnonymously(auth)
             .then((result) => {
                 const user = result.user;
+                const credential = result;
+
+                updateProfile(auth.currentUser, {
+                    displayName: "Guest"
+                }).then((result) => {
+                    console.log(result);
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.log({errorCode, errorMessage});
+                })
 
                 this.setState({
-                    user: user
+                    user: user,
+                    credential: credential
                 });
 
                 this.props.updateUserState(user);
+                this.props.updateUserState(credential);
+
+                if(document.getElementById("c_rmb_me").checked){
+                    localStorage.setItem("user", user.accessToken);
+                    localStorage.setItem("displayName", "Guest");
+                    localStorage.setItem("email", user.email);
+                }
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -114,6 +152,11 @@ class Login extends Component {
                     <br/>
                     <label> Password: 
                         <input onKeyUp={this.handleKeyPress} type="password" name="" id="t_password" />
+                    </label>
+                    <br/>
+                    <label>
+                        <input type="checkbox" name="" id="c_rmb_me" />
+                        Remember me
                     </label>
                     <br/>
                     <button onClick={this.bLogin}>Login</button>
