@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import React, { Component, useState } from 'react'
+import { BrowserRouter, Routes, Route, redirect} from 'react-router-dom'
 
 // shared components
 import LoginNavbar from './sharedComponents/loginNavbar';
@@ -10,6 +10,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
+import SignOut from './pages/SignOut';
+import Error from './pages/Error';
 
 // firebase
 import { initializeApp } from "firebase/app";
@@ -32,35 +34,41 @@ const firebaseAnalytics = getAnalytics(firebaseApp);
 // StyleSheet
 import './App.css'
 
-class App extends React.Component {
+class App extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            user: "cd"
+            user: null
         };
     }
 
-    updateState(props){
-        console.log(props);
+    updateUserState = (data) => {
         this.setState({
-            user: props
+            user: data
         });
-        console.log(this.state.user);
+
+        console.log(this.state);
+        console.log("State updated!");
+    }
+
+    firebaseSignOut = () => {
+        signOut();
     }
 
     render() {
         
         console.log(this.state.user);
 
-        if (this.state.user){
-            
+        if (!this.state.user){
             return (
                 <BrowserRouter>
                     <Routes>
                         <Route exact path="/freeflow-edu" element={<LoginNavbar/>}>
                             <Route index active element={<Login/>}/>
-                            <Route path="register" element={<Register updateState={this.updateState} user={this.state.user}/>}/>
+                            <Route path="register" element={<Register state={this.state} updateUserState={this.updateUserState}/>}/>
+                            <Route path="sign-out" element={<SignOut/>}/>
+                            <Route path="*" element={<Error/>}/>
                         </Route>
                     </Routes>
                 </BrowserRouter>
@@ -72,6 +80,10 @@ class App extends React.Component {
                         <Route exact path="/freeflow-edu" element={<HomeNavbar/>}>
                             <Route index active element={<Home/>}/>
                             <Route path="profile" element={<Profile/>}/>
+                            <Route path="sign-out" element={<SignOut state={this.state} updateUserState={this.updateUserState}/>}/>
+                            <Route path="login" element={<Login/>}/>
+                            <Route path="register" element={<Register state={this.state} updateUserState={this.updateUserState}/>}/>
+                            <Route path="*" element={<Error/>}/>
                         </Route>
                     </Routes>
                 </BrowserRouter>
