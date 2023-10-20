@@ -1,9 +1,7 @@
 import React, { Component, useState } from "react";
-import { Link, useNavigate, Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 // firebase
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, createUserWithEmailAndPassword } from "firebase/auth";
 
 class Register extends Component { 
@@ -16,8 +14,15 @@ class Register extends Component {
         this.setState = this.setState.bind(this);
     }
 
+    handleKeyPress = (e) => {
+        if(e.key == "Enter") {
+            console.log("enter");
+            this.bRegister();
+        }
+    }
+
     bRegister = () => {
-        if($("#t_email").val() != "" && $("#t_username").val() != "" && $("#t_password").val() != "" && $("#t_confirm_password").val() != "" && $("#t_otp").val() != ""){
+        if($("#t_email").val() != "" && $("#t_password").val() != "" && $("#t_confirm_password").val() != "" && $("#t_otp").val() != ""){
             if($("#t_password").val() == $("#t_confirm_password").val()){
                 if(document.getElementById("c_privacy").checked){
                     const auth = getAuth();
@@ -154,19 +159,19 @@ class Register extends Component {
     
                 <div>
                     <label> Email: 
-                        <input type="text" name="" id="t_email" />
+                        <input onKeyUp={this.handleKeyPress} type="text" name="" id="t_email" />
                     </label>
                     <br/>
-                    <label> Username: 
-                        <input type="text" name="" id="t_username" />
+                    {/* <label> Username: 
+                        <input onKeyUp={this.handleKeyPress} type="text" name="" id="t_username" />
                     </label>
-                    <br/>
+                    <br/> */}
                     <label> Password: 
-                        <input type="password" name="" id="t_password" />
+                        <input onKeyUp={this.handleKeyPress} type="password" name="" id="t_password" />
                     </label>
                     <br/>
                     <label> Confirm Password: 
-                        <input type="password" name="" id="t_confirm_password" />
+                        <input onKeyUp={this.handleKeyPress} type="password" name="" id="t_confirm_password" />
                     </label>
                     <br/>
                     {/* <label> OTP: 

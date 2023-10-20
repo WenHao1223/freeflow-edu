@@ -52,10 +52,6 @@ class App extends Component {
         console.log("State updated!");
     }
 
-    firebaseSignOut = () => {
-        signOut();
-    }
-
     render() {
         
         console.log(this.state.user);
@@ -65,7 +61,7 @@ class App extends Component {
                 <BrowserRouter>
                     <Routes>
                         <Route exact path="/freeflow-edu" element={<LoginNavbar/>}>
-                            <Route index active element={<Login/>}/>
+                            <Route index active element={<Login state={this.state} updateUserState={this.updateUserState}/>}/>
                             <Route path="register" element={<Register state={this.state} updateUserState={this.updateUserState}/>}/>
                             <Route path="sign-out" element={<SignOut/>}/>
                             <Route path="*" element={<Error/>}/>
@@ -81,7 +77,7 @@ class App extends Component {
                             <Route index active element={<Home/>}/>
                             <Route path="profile" element={<Profile/>}/>
                             <Route path="sign-out" element={<SignOut state={this.state} updateUserState={this.updateUserState}/>}/>
-                            <Route path="login" element={<Login/>}/>
+                            <Route path="login" element={<Login state={this.state} updateUserState={this.updateUserState}/>}/>
                             <Route path="register" element={<Register state={this.state} updateUserState={this.updateUserState}/>}/>
                             <Route path="*" element={<Error/>}/>
                         </Route>
