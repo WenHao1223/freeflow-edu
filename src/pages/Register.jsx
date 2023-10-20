@@ -1,12 +1,10 @@
 import React, { Component, useState } from "react";
-import { Link, useNavigate, redirect } from "react-router-dom";
+import { Link, useNavigate, Navigate } from "react-router-dom";
 
 // firebase
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, createUserWithEmailAndPassword } from "firebase/auth";
-
-// import withNavigate from "../components/withNavigate";
 
 class Register extends Component { 
     constructor(props) {
@@ -76,10 +74,6 @@ class Register extends Component {
                     });
 
                     this.props.updateUserState(user);
-
-                    const navigate = useNavigate();
-
-                    navigate("/test");
             
                 }).catch((error) => {
                     const errorCode = error.code;
@@ -143,15 +137,13 @@ class Register extends Component {
 //     }
     
 
-render() {
+    render() {
         if(this.state.user){
             console.log("loged in");
-            return (redirect("/test"));
-            // window.history.pushState({}, null, "/freeflow-edu/");
+            return <Navigate to="/freeflow-edu/"></Navigate>
         }
 
         console.log(this.state.user);
-        // this.updateUserState(this.state.user);
         
         return (
             <>

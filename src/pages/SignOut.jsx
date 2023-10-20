@@ -1,5 +1,5 @@
 import React, { Component, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { getAuth, signOut } from 'firebase/auth';
 
 class SignOut extends Component {
@@ -31,7 +31,7 @@ class SignOut extends Component {
 
     render() {
         console.log(this.state);
-        if(this.state.user){
+        if(this.state){
             return (
                 <>
                     <h3>Are you sure you want to sign out? </h3>
@@ -41,15 +41,8 @@ class SignOut extends Component {
                     <Link to="/freeflow-edu/">Back Home</Link>
                 </>
             );
-        } else {
-            return (
-                <>
-                    <h3>Successfully sign out.</h3>
-                    <p>We wish to see you again! </p>
-                    <Link to="/freeflow-edu/">Back to Login</Link>
-                </>
-            )
         }
+        return <Navigate to="/freeflow-edu/"></Navigate>
     }
 }
 
