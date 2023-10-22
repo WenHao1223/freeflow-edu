@@ -4,7 +4,7 @@ import { countries } from 'countries-list';
 
 // firebase
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
 
 import { isArrayEmpty } from '../sharedComponents/utils';
 
@@ -25,8 +25,11 @@ const db = getFirestore(firebaseApp);
 class FirstTimeUser extends Component {
     constructor(props) {
         super(props);
+
+        console.log(props.state.user);
         
         this.state = {
+            user: props.state.user,
             currentQuestion: 1,
             role: null,
             recommendBy: null,
@@ -83,7 +86,7 @@ class FirstTimeUser extends Component {
 
     uploadData = async () => {
         try {
-            const docUser = await addDoc(collection(db, "users"), {
+            const docUser = await setDoc(doc(db, "Users", this.state.user.uid), {
                 role: this.state.role,
                 recommendBy: this.state.recommendBy,
                 eduLvl: this.state.eduLvl,
@@ -100,10 +103,10 @@ class FirstTimeUser extends Component {
             if (this.state.user.metadata.creationTime === this.state.user.metadata.lastSignInTime) {
                 console.log("first-time user");
             } else {
-                // return <Navigate to="/freeflow-edu"></Navigate>
+                return <Navigate to="/freeflow-edu"></Navigate>
             }
         } else {
-            // return <Navigate to="/freeflow-edu"></Navigate>
+            return <Navigate to="/freeflow-edu"></Navigate>
         }
 
         const questionCards = isArrayEmpty(this.data) ? [] : this.data.map((item, pos) => {
@@ -126,6 +129,7 @@ class FirstTimeUser extends Component {
         if(this.state.currentQuestion > 4){
             console.log("End of survey");
             this.uploadData();
+            return <Navigate to="/freeflow-edu"></Navigate>;
         }
 
         return(

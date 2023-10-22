@@ -1,27 +1,59 @@
 import React, { Component, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
-class Home extends Component {
-    constructor(props) {
-        super(props);
-        
-        this.state = props.state;
-    }
+// firebase
+import { initializeApp } from "firebase/app";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 
-    render() {
-        console.log(this.state.user);
-        if(this.state.user){
-            if(this.state.user.metadata.creationTime === this.state.user.metadata.lastSignInTime){
-                console.log("first-time user");
-                return <Navigate to="/freeflow-edu/first-time-user"></Navigate>
-            }
+const firebaseConfig = {
+    apiKey: "AIzaSyAj-GUmYIXPUpAoFSAmQaiQ7to35EqqgvI",
+    authDomain: "freeflow-edu.firebaseapp.com",
+    projectId: "freeflow-edu",
+    storageBucket: "freeflow-edu.appspot.com",
+    messagingSenderId: "452838619706",
+    appId: "1:452838619706:web:b09c97c4f716734f699303",
+    measurementId: "G-VMWMHD4L2L"
+};
+
+// Initialize Firebase
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
+
+const Home = (props) => {
+    const [user, setUser] = useState(props.state.user);
+    const [credential, setCredential] = useState(props.state.credential);
+    const navigate = useNavigate();
+
+    if(user){
+        const docUser = doc(db, "Users", user.uid);
+
+        const checkExists = () => {
+            getDoc(docUser).then((result) => {
+                console.log(result)
+                if(!result.exists()){
+                    if(user.metadata.creationTime === user.metadata.lastSignInTime){
+                        console.log("first-time user");
+                        navigate("/freeflow-edu/first-time-user");
+                    } else {
+                        console.log("registered");
+                    }
+                } else {
+                    console.log("registered");
+                }
+            }).catch((error) => {
+                console.log("Error getting document of collection Users: ", error);
+            });
+
         }
-    
-        return (
-            <Navigate to="/freeflow-edu/first-time-user"></Navigate>
-            // <h1>Home</h1>
-        );
+
+        checkExists();
     }
+
+    return(
+        <>
+            <h1>Home</h1>
+        </>
+    );
 };
 
 export default Home;
