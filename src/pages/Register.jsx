@@ -37,7 +37,7 @@ class Register extends Component {
                             updateProfile(auth.currentUser, {
                                 displayName: username
                             }).then((result) => {
-                                console.log(result);
+                                // console.log(result);
                             })
                             .catch((error) => {
                                 const errorCode = error.code;
@@ -47,7 +47,7 @@ class Register extends Component {
 
                             this.setState({
                                 user: user,
-                                credential: credential
+                                credential: userCredential
                             });
                             
                             this.props.updateUserState(user);

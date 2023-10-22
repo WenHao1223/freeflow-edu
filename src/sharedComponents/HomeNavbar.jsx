@@ -1,7 +1,7 @@
-import { useState } from "react";
+import React, { Component, useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 
-const HomeNavbar = ({setUser}) => {
+const HomeNavbar = () => {
     return (
         <>
             <nav className='navbar'>
@@ -13,6 +13,6 @@ const HomeNavbar = ({setUser}) => {
             <Outlet/>
         </>
     );
-};
+}
 
 export default HomeNavbar;
