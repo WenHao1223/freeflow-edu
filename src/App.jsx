@@ -5,7 +5,6 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, signOut } from 'firebase/auth';
-import { getFirestore } from "firebase/firestore"
 
 // shared components
 import LoginNavbar from './sharedComponents/loginNavbar';
@@ -35,7 +34,6 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 const firebaseAnalytics = getAnalytics(firebaseApp);
-const db = getFirestore(firebaseApp);
 
 // StyleSheet
 import './App.css'

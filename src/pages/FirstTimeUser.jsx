@@ -1,7 +1,26 @@
 import React, { Component, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { countries } from 'countries-list';
+
+// firebase
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
+
 import { isArrayEmpty } from '../sharedComponents/utils';
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAj-GUmYIXPUpAoFSAmQaiQ7to35EqqgvI",
+    authDomain: "freeflow-edu.firebaseapp.com",
+    projectId: "freeflow-edu",
+    storageBucket: "freeflow-edu.appspot.com",
+    messagingSenderId: "452838619706",
+    appId: "1:452838619706:web:b09c97c4f716734f699303",
+    measurementId: "G-VMWMHD4L2L"
+};
+
+// Initialize Firebase
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
 
 class FirstTimeUser extends Component {
     constructor(props) {
@@ -62,6 +81,19 @@ class FirstTimeUser extends Component {
         });
     }
 
+    uploadData = async () => {
+        try {
+            const docUser = await addDoc(collection(db, "users"), {
+                role: this.state.role,
+                recommendBy: this.state.recommendBy,
+                eduLvl: this.state.eduLvl,
+                country: this.state.country
+            });
+        } catch (e) {
+            console.log("Error adding document of first-time login user: ", e);
+        }
+    }
+
     render() {
         console.log(this.state)
         if(this.state.user){
@@ -93,6 +125,7 @@ class FirstTimeUser extends Component {
 
         if(this.state.currentQuestion > 4){
             console.log("End of survey");
+            this.uploadData();
         }
 
         return(
