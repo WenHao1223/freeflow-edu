@@ -1,5 +1,5 @@
 import React, { Component, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, Link } from "react-router-dom";
 
 // firebase
 import { initializeApp } from "firebase/app";

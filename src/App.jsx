@@ -112,7 +112,7 @@ class App extends Component {
             return (
                 <BrowserRouter>
                     <Routes>
-                        <Route exact path="/freeflow-edu" element={<HomeNavbar/>}>
+                        <Route exact path="/freeflow-edu" element={<HomeNavbar state={this.state}/>}>
                             <Route index active element={<Home state={this.state}/>}/>
                             <Route path="profile" element={<Profile/>}/>
                             <Route path="sign-out" element={<SignOut state={this.state} updateUserState={this.updateUserState} updateCredentialState={this.updateCredentialState}/>}/>

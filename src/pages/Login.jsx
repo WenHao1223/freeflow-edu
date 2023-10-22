@@ -102,6 +102,7 @@ class Login extends Component {
         const auth = getAuth();
         signInAnonymously(auth)
             .then((result) => {
+                console.log(result.user);
                 const user = result.user;
                 const credential = result;
 
@@ -122,7 +123,7 @@ class Login extends Component {
                 });
 
                 this.props.updateUserState(user);
-                this.props.updateUserState(credential);
+                this.props.updateCredentialState(credential);
 
                 if(document.getElementById("c_rmb_me").checked){
                     localStorage.setItem("user", user.accessToken);

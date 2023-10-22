@@ -4,3 +4,7 @@ export const isArrayEmpty = (arr) => {
     } 
     return true;
 }
+
+export const upperCase = (data) => {
+    return data.charAt(0).toUpperCase() + data.slice(1);
+}
