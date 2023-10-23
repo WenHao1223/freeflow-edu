@@ -43,11 +43,11 @@ class SignOut extends Component {
                     <p>This action is undone and you will be required to login again.</p>
                     <button onClick={this.logout}>Sign out</button>
                     <br/>
-                    <Link to="/freeflow-edu/">Back Home</Link>
+                    <Link to="/">Back Home</Link>
                 </>
             );
         }
-        return <Navigate to="/freeflow-edu/"></Navigate>
+        return <Navigate to="/"></Navigate>
     }
 }
 
