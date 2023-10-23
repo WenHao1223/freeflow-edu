@@ -64,12 +64,12 @@ const HomeNavbar = (props) => {
     return (
         <>
             <nav className='navbar'>
-                <NavLink to='/' className={ ({isActive}) => isActive ? 'link active' : 'link'}>Home</NavLink>
-                <NavLink to='/profile' className={ ({isActive}) => isActive ? 'link active' : 'link'}>Profile</NavLink>
-                <NavLink style={{display: "none"}} to='/upload' className={ ({isActive}) => isActive ? 'link active' : 'link'} id="uploadLink">Upload</NavLink>
-                <NavLink to='/sign-out' className={ ({isActive}) => isActive ? 'link active' : 'link'}>Sign Out</NavLink>
+                <NavLink to='/freeflow-edu/' className={ ({isActive}) => isActive ? 'link active' : 'link'}>Home</NavLink>
+                <NavLink to='/freeflow-edu/profile' className={ ({isActive}) => isActive ? 'link active' : 'link'}>Profile</NavLink>
+                <NavLink style={{display: "none"}} to='/freeflow-edu/upload' className={ ({isActive}) => isActive ? 'link active' : 'link'} id="uploadLink">Upload</NavLink>
+                <NavLink to='/freeflow-edu/sign-out' className={ ({isActive}) => isActive ? 'link active' : 'link'}>Sign Out</NavLink>
 
-                <Link to="/profile">
+                <Link to="/freeflow-edu/profile">
                     <img src={props.state.user.photoURL} alt="Profile Img"/>
                     <p>{props.state.user.displayName}</p>
                     <p>{props.state.user.email}</p>
