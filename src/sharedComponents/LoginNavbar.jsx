@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 
-const LoginNavbar = ({setUser}) => {
+const LoginNavbar = () => {
     return (
         <>
             <nav className='navbar'>
