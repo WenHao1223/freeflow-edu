@@ -51,7 +51,7 @@ const Home = (props) => {
 
     return(
         <>
-            <h1>Home</h1>
+            <h1 className="text-gray-300">Home</h1>
         </>
     );
 };

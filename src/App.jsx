@@ -1,5 +1,6 @@
 import React, { Component, useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+// import { base, components, utilities} from 'tailwindcss';
 
 // firebase
 import { initializeApp } from "firebase/app";
@@ -17,6 +18,7 @@ import FirstTimeUser from './pages/FirstTimeUser';
 
 import Home from './pages/Home';
 import Profile from './pages/Profile';
+import Upload from './pages/Upload';
 import SignOut from './pages/SignOut';
 import Error from './pages/Error';
 
@@ -43,16 +45,16 @@ class App extends Component {
         super(props);
 
         this.state = {
-            user: null,
+            user: null || JSON.parse(localStorage.getItem("user")),
             credential: null
         };
     }
     
     componentDidMount() {
-        if(this.state.user !== null && localStorage.getItem("user")){
-            console.log(localStorage.getItem("user"));
+        if(this.state.user !== null && JSON.parse(localStorage.getItem("user"))){
+            console.log(JSON.parse(localStorage.getItem("user")));
             this.setState({
-                user: localStorage.getItem("user")
+                user: JSON.parse(localStorage.getItem("user"))
             });
         }
     }
@@ -79,7 +81,7 @@ class App extends Component {
         
         console.log(this.state.user);
 
-        if (!(this.state.user || localStorage.getItem("user"))){
+        if (!(this.state.user || JSON.parse(localStorage.getItem("user")))){
             // alert("Session has expired. Login again.");
             console.log("Session has expired. Login again.")
             // signOut(this.auth)
@@ -117,6 +119,7 @@ class App extends Component {
                             <Route path="profile" element={<Profile/>}/>
                             <Route path="sign-out" element={<SignOut state={this.state} updateUserState={this.updateUserState} updateCredentialState={this.updateCredentialState}/>}/>
                             <Route path="register" element={<Register state={this.state} updateUserState={this.updateUserState}/>}/>
+                            <Route path="upload" element={<Upload state={this.state}/>}/>
                             <Route path="first-time-user" element={<FirstTimeUser state={this.state}/>}/>
                             <Route path="*" element={<Error/>}/>
                         </Route>

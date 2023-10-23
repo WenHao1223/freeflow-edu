@@ -54,7 +54,7 @@ class Register extends Component {
                             this.props.updateCredentialState(userCredential);
 
                             if(document.getElementById("c_rmb_me").checked){
-                                localStorage.setItem("user", user.accessToken);
+                                localStorage.setItem("user", JSON.stringify(user));
                                 localStorage.setItem("displayName", username);
                                 localStorage.setItem("email", user.email);
                             }
@@ -104,7 +104,7 @@ class Register extends Component {
                     this.props.updateCredentialState(credential);
 
                     if(document.getElementById("c_rmb_me").checked){
-                        localStorage.setItem("user", user.accessToken);
+                        localStorage.setItem("user", JSON.stringify(user));
                         localStorage.setItem("displayName", user.displayName);
                         localStorage.setItem("email", user.email);
                     }
