@@ -1,9 +1,13 @@
 import React, { Component, useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 
 // firebase
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes } from "firebase/storage";
+
+// solana
+import SOLtoUSD from "./SOLtoUSD";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAj-GUmYIXPUpAoFSAmQaiQ7to35EqqgvI",
@@ -31,7 +35,8 @@ class Upload extends Component {
             tag: new Set(),
             thumbnailUpload: null,
             videoUpload: null,
-            notesUpload: null
+            notesUpload: null,
+            sol: 1
         }
     }
 
@@ -75,12 +80,18 @@ class Upload extends Component {
         });
     }
 
+    changeSOL = () => {
+        this.setState({
+            sol: $("#t_sol").val()
+        })
+    }
+
     uploadConfirm = async () => {
-        if($("#t_title").val() !== "" && $("#t_des").val() !== "" && $("#c_level").val() !== "" && $("#t_sub").val() !== "" && $("#t_lang").val() !== ""){
+        if($("#t_title").val() !== "" && $("#t_des").val() !== "" && $("#c_level").val() !== "" && $("#t_sub").val() !== "" && $("#t_lang").val() !== "" && $("#t_sol").val() !== ""){
             if($("#div_tag").html() !== ""){
                 if(this.state.choice){
                     if(this.state.thumbnailUpload && ((this.state.choice === "video" && this.state.videoUpload) || (this.state.choice === "notes" && this.state.notesUpload) || (this.state.choice === "both" && this.state.videoUpload && this.state.notesUpload))){
-                        if (confirm("Make sure all information are correct. You cannot edit any part anymore after material is uploaded.<br/>Do not reload the page before uploading process is not done.")){
+                        if (confirm("Make sure all information are correct. You cannot edit any part anymore after material is uploaded.\n\nDo not reload the page before uploading process is not done.")){
                             $("#main").css("opacity", 0.5);
                             $("#main").css("pointerEvents", "none");
                             $("#main").attr("disabled", true);
@@ -90,6 +101,7 @@ class Upload extends Component {
                                 eduLvl: $("#c_level").val(),
                                 sub: $("#t_sub").val(),
                                 lang: $("#t_lang").val(),
+                                sol: $("#t_sol").val(),
                                 tag: [...this.state.tag],
                                 userUID: this.state.user.uid,
                                 mode: this.state.choice
@@ -129,7 +141,7 @@ class Upload extends Component {
                             $("#main").css("pointerEvents", "inherit");
                             $("#main").attr("disabled", false);
                             alert("Upload success!");
-                            window.location.reload();
+                            return <Navigate to={"course/"+docRef.id}></Navigate>
                         }
                     } else {
                         alert("Please upload required image / video / notes.")
@@ -159,15 +171,10 @@ class Upload extends Component {
         return(
             <section id="main">
                 <h1>Upload</h1>
-    
-                <div>
-                    <button className="button_choice"  id="b_video" onClick={() => this.select("video")}>Video</button>
-                    <button className="button_choice"  id="b_notes" onClick={() => this.select("notes")}>Notes</button>
-                    <button className="button_choice"  id="b_both" onClick={() => this.select("both")}>Both</button>
-                </div>
+
                 <div className="div_general">
                     <label> Course Title: 
-                        <input onKeyUp={this.handleKeyPress} type="text" name="t_tile" id="t_title" placeholder="e.g. Trigonometry" required/>
+                        <input onKeyUp={this.handleKeyPress} type="text" name="t_tile" id="t_title" placeholder="Trigonometry" required/>
                     </label>
                     <br/>
                     <label> Course Description: 
@@ -185,10 +192,15 @@ class Upload extends Component {
                         </select>
                     </label>
                     <label> Subject: 
-                        <input onKeyUp={this.handleKeyPress} type="text" name="t_sub" id="t_sub" placeholder="e.g. Mathematics" required/>
+                        <input onKeyUp={this.handleKeyPress} type="text" name="t_sub" id="t_sub" placeholder="Mathematics" required/>
                     </label>
                     <label> Language: 
-                        <input onKeyUp={this.handleKeyPress} type="text" name="t_lang" id="t_lang" placeholder="e.g. English" required/>
+                        <input onKeyUp={this.handleKeyPress} type="text" name="t_lang" id="t_lang" placeholder="English" required/>
+                    </label>
+                    <br />
+                    <label> Sell for $: 
+                        <input onKeyUp={this.handleKeyPress} onChange={this.changeSOL} type="number" name="t_sol" id="t_sol" placeholder="0.00" required/> Solana
+                        <br />{this.state.sol} SOL = {<SOLtoUSD sol={this.state.sol}/>} USD
                     </label>
                     <br/>
                     <label> Tag: 
@@ -196,14 +208,6 @@ class Upload extends Component {
                     </label>
                     <div id="div_tag">
                         {tagCards}
-                        {/* <span id="tag_test">
-                            test
-                            <button onClick={() => removeTag("test")}>x</button>
-                        </span>
-                        <span id="tag_test2">
-                            test2
-                            <button onClick={() => removeTag("test2")}>x</button>
-                        </span> */}
                     </div>
                         <br/>
                     <label> Author: 
@@ -217,6 +221,12 @@ class Upload extends Component {
                 <br />
                 <hr />
                 <br />
+
+                <div>
+                    <button className="button_choice"  id="b_video" onClick={() => this.select("video")}>Video</button>
+                    <button className="button_choice"  id="b_notes" onClick={() => this.select("notes")}>Notes</button>
+                    <button className="button_choice"  id="b_both" onClick={() => this.select("both")}>Both</button>
+                </div>
     
                 <div id="div_video" className="div_upload" style={{display: "none"}}>
                     <h1>Video</h1>

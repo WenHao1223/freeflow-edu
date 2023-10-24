@@ -18,10 +18,10 @@ import FirstTimeUser from './pages/FirstTimeUser';
 
 import Home from './pages/Home';
 import Profile from './pages/Profile';
+import Course from './pages/Course';
 import Upload from './pages/Upload';
 import SignOut from './pages/SignOut';
 import Error from './pages/Error';
-
 
 const firebaseConfig = {
     apiKey: "AIzaSyAj-GUmYIXPUpAoFSAmQaiQ7to35EqqgvI",
