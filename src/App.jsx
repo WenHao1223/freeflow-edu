@@ -8,7 +8,7 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth, signOut } from 'firebase/auth';
 
 // shared components
-import LoginNavbar from './sharedComponents/loginNavbar';
+import LoginNavbar from './sharedComponents/LoginNavbar';
 import HomeNavbar from './sharedComponents/HomeNavbar';
 
 // pages
