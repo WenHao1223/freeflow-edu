@@ -76,35 +76,66 @@ class Upload extends Component {
     }
 
     uploadConfirm = async () => {
-        if($("#t_title").val() !== "" & $("#t_des").val() !== "" & $("#c_level").val() !== "" & $("#t_sub").val() !== "" & $("#f_thumbnail").val() !== "" && this.state.thumbnailUpload !== null){
+        if($("#t_title").val() !== "" && $("#t_des").val() !== "" && $("#c_level").val() !== "" && $("#t_sub").val() !== "" && $("#t_lang").val() !== ""){
             if($("#div_tag").html() !== ""){
-                if (confirm("Make sure all information are correct. You cannot edit any part anymore after material is uploaded.")){
-                    const docRef = await addDoc(collection(db, "Course"), {
-                        title: $("#t_title").val(),
-                        des: $("#t_des").val(),
-                        eduLvl: $("#c_level").val(),
-                        sub: $("#t_sub").val(),
-                        lang: $("#t_lang").val(),
-                        tag: [...this.state.tag],
-                        userUID: this.state.user.uid,
-                        mode: this.state.choice
-                    });
-                    console.log("Document written with ID: ", docRef.id);
+                if(this.state.choice){
+                    if(this.state.thumbnailUpload && ((this.state.choice === "video" && this.state.videoUpload) || (this.state.choice === "notes" && this.state.notesUpload) || (this.state.choice === "both" && this.state.videoUpload && this.state.notesUpload))){
+                        if (confirm("Make sure all information are correct. You cannot edit any part anymore after material is uploaded.<br/>Do not reload the page before uploading process is not done.")){
+                            $("#main").css("opacity", 0.5);
+                            $("#main").css("pointerEvents", "none");
+                            $("#main").attr("disabled", true);
+                            const docRef = await addDoc(collection(db, "Course"), {
+                                title: $("#t_title").val(),
+                                des: $("#t_des").val(),
+                                eduLvl: $("#c_level").val(),
+                                sub: $("#t_sub").val(),
+                                lang: $("#t_lang").val(),
+                                tag: [...this.state.tag],
+                                userUID: this.state.user.uid,
+                                mode: this.state.choice
+                            });
+                            console.log("Document written with ID: ", docRef.id);
+        
+                            let storageThumbnailRef = ref(storage, `${docRef.id}/thumbnail.jpg`);
+                            uploadBytes(storageThumbnailRef, this.state.thumbnailUpload).then(() => {
+                                console.log('Uploaded thumbnail file!');
+                            });
+        
+                            let storageVideoRef = ref(storage, `${docRef.id}/video.mp4`);
+                            let storageNotesRef = ref(storage, `${docRef.id}/notes.pdf`);
 
-                    let storageRef = ref(storage, `${docRef.id}/thumbnail.jpg`);
+                            switch(this.state.choice){
+                                case "video":
+                                    uploadBytes(storageVideoRef, this.state.videoUpload).then(() => {
+                                        console.log('Uploaded video file!');
+                                    });
+                                    break
+                                case "notes":
+                                    uploadBytes(storageNotesRef, this.state.notesUpload).then(() => {
+                                        console.log('Uploaded pdf file!');
+                                    });
+                                    break
+                                case "both":
+                                    uploadBytes(storageVideoRef, this.state.videoUpload).then(() => {
+                                        console.log('Uploaded video file!');
+                                    });
+                                    uploadBytes(storageNotesRef, this.state.notesUpload).then(() => {
+                                        console.log('Uploaded pdf file!');
+                                    });
+                                    break
+                            }
 
-                    uploadBytes(storageRef, this.state.thumbnailUpload).then(() => {
-                        console.log('Uploaded thumbnail file!');
-                    });
-
-                    switch(this.state.choice){
-                        case "video":
-                            break
-                        case "notes":
-                            break
-                        case "both":
-                            break
+                            $("#main").css("opacity", 1);
+                            $("#main").css("pointerEvents", "inherit");
+                            $("#main").attr("disabled", false);
+                            alert("Upload success!");
+                            window.location.reload();
+                        }
+                    } else {
+                        alert("Please upload required image / video / notes.")
                     }
+                } else {
+                    alert("Please select either to upload video / notes / both.")
                 }
             } else {
                 alert("Please add some tags! ");
@@ -115,6 +146,7 @@ class Upload extends Component {
     }
 
     render(){
+        console.log(this.state);
         const tagCards = (this.state.tag.size === 0) ? [] : [...this.state.tag].map((item, pos) => {
             return (
                 <span key={item} id={"tag_"+item}>
@@ -125,7 +157,7 @@ class Upload extends Component {
         });
 
         return(
-            <>
+            <section id="main">
                 <h1>Upload</h1>
     
                 <div>
@@ -186,18 +218,18 @@ class Upload extends Component {
                 <hr />
                 <br />
     
-                <div id="div_video" className="div_upload">
+                <div id="div_video" className="div_upload" style={{display: "none"}}>
                     <h1>Video</h1>
                     <label>Upload Video: 
-                        <input type="file" name="vid" id="f_video" accept=".mp4"/>
+                        <input type="file" onChange={(e) => this.setState({videoUpload: e.target.files[0]})} name="vid" id="f_video" accept=".mp4"/>
                     </label>
                     <br />
                 </div>
     
-                <div id="div_notes" className="div_upload">
+                <div id="div_notes" className="div_upload" style={{display: "none"}}>
                     <h1>Notes</h1>
                     <label>Upload Notes: 
-                        <input type="file" name="vid" id="f_notes" accept=".pdf"/>
+                        <input type="file" onChange={(e) => this.setState({notesUpload: e.target.files[0]})} name="vid" id="f_notes" accept=".pdf"/>
                     </label>
                     <br />
                 </div>
@@ -205,7 +237,7 @@ class Upload extends Component {
                 <hr />
                 <br />
                 <button onClick={this.uploadConfirm}>Upload</button>
-            </>
+            </section>
         );
     }
 }
