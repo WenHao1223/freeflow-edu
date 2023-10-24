@@ -9,17 +9,31 @@ const handleKeyPress = (e) => {
 
 const handleTagKeyPress = (e) => {
     if(e.key == "Enter") {
-        console.log("enter tag");
+        console.log($("#t_tag").val());
+        // $("#div_tag").html($("#div_tag").html() + `<span id="tag_test3"><button onClick={() => removeTag("test2")}>x</button>Test3</span>`);
     }
+}
+
+const uploadConfirm = () => {
+    console.log("Upload button pressed");
 }
 
 const Upload = (props) => {
     const [user, setUser] = useState(props.state.user);
     const [credential, setCredential] = useState(props.state.credential);
+    const [tag, setTag] = useState([]);
 
     const select = (props) => {
         $(".button_choice").attr("class", "button_choice");
         $(`#b_${props}`).attr("class", "button_choice text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800");
+
+        if(props==="both"){
+            $("#div_video").css("display", "inherit");
+            $("#div_notes").css("display", "inherit");
+        } else {
+            $(".div_upload").css("display", "none");
+            $(`#div_${props}`).css("display", "inherit");
+        }
     }
     
     return(
@@ -61,16 +75,16 @@ const Upload = (props) => {
                     <input onKeyUp={handleTagKeyPress} type="text" name="t_tag" id="t_tag" placeholder="Write some keywords here..." required/>
                 </label>
                 <div id="div_tag">
-                    <span>
+                    <span id="tag_test">
                         test
-                        <button>x</button>
+                        <button onClick={() => removeTag("test")}>x</button>
                     </span>
-                    <span>
+                    <span id="tag_test2">
                         test2
-                        <button>x</button>
+                        <button onClick={() => removeTag("test2")}>x</button>
                     </span>
                 </div>
-                <br/>
+                    <br/>
                 <label> Author: 
                     <input type="text" name="t_author_uid" id="t_author_uid" value={props.state.user.email} disabled/>
                 </label>
@@ -82,20 +96,26 @@ const Upload = (props) => {
             <br />
             <hr />
             <br />
-            <div class="divVideo">
+
+            <div id="div_video" class="div_upload">
                 <h1>Video</h1>
-                <label> Upload Video: 
+                <label>Upload Video: 
                     <input type="file" name="vid" id="t_author_uid" accept=".mp4"/>
                 </label>
+                <br />
             </div>
-            
-            <br />
-            <div class="divVideo">
+
+            <div id="div_notes" class="div_upload">
                 <h1>Notes</h1>
-                <label> Video: 
+                <label>Upload Notes: 
                     <input type="file" name="vid" id="t_author_uid" accept=".pdf"/>
                 </label>
+                <br />
             </div>
+            <br />
+            <hr />
+            <br />
+            <button onClick={uploadConfirm}>Upload</button>
         </>
     );
 };
