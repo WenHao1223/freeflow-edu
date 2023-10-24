@@ -1,5 +1,6 @@
 import React, { Component, useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import withRouter from "../sharedComponents/withRouter";
+// import { useNavigate, Navigate } from "react-router-dom";
 
 // firebase
 import { initializeApp } from "firebase/app";
@@ -87,6 +88,7 @@ class Upload extends Component {
     }
 
     uploadConfirm = async () => {
+        const { navigate } = this.props;
         if($("#t_title").val() !== "" && $("#t_des").val() !== "" && $("#c_level").val() !== "" && $("#t_sub").val() !== "" && $("#t_lang").val() !== "" && $("#t_sol").val() !== ""){
             if($("#div_tag").html() !== ""){
                 if(this.state.choice){
@@ -109,7 +111,7 @@ class Upload extends Component {
                             console.log("Document written with ID: ", docRef.id);
         
                             let storageThumbnailRef = ref(storage, `${docRef.id}/thumbnail.jpg`);
-                            uploadBytes(storageThumbnailRef, this.state.thumbnailUpload).then(() => {
+                            await uploadBytes(storageThumbnailRef, this.state.thumbnailUpload).then(() => {
                                 console.log('Uploaded thumbnail file!');
                             });
         
@@ -118,20 +120,20 @@ class Upload extends Component {
 
                             switch(this.state.choice){
                                 case "video":
-                                    uploadBytes(storageVideoRef, this.state.videoUpload).then(() => {
+                                    await uploadBytes(storageVideoRef, this.state.videoUpload).then(() => {
                                         console.log('Uploaded video file!');
                                     });
                                     break
                                 case "notes":
-                                    uploadBytes(storageNotesRef, this.state.notesUpload).then(() => {
+                                    await uploadBytes(storageNotesRef, this.state.notesUpload).then(() => {
                                         console.log('Uploaded pdf file!');
                                     });
                                     break
                                 case "both":
-                                    uploadBytes(storageVideoRef, this.state.videoUpload).then(() => {
+                                    await uploadBytes(storageVideoRef, this.state.videoUpload).then(() => {
                                         console.log('Uploaded video file!');
                                     });
-                                    uploadBytes(storageNotesRef, this.state.notesUpload).then(() => {
+                                    await uploadBytes(storageNotesRef, this.state.notesUpload).then(() => {
                                         console.log('Uploaded pdf file!');
                                     });
                                     break
@@ -140,8 +142,8 @@ class Upload extends Component {
                             $("#main").css("opacity", 1);
                             $("#main").css("pointerEvents", "inherit");
                             $("#main").attr("disabled", false);
-                            alert("Upload success!");
-                            return <Navigate to={"course/"+docRef.id}></Navigate>
+                            await alert("Upload success!");
+                            navigate("/freeflow-edu/");
                         }
                     } else {
                         alert("Please upload required image / video / notes.")
@@ -252,4 +254,4 @@ class Upload extends Component {
     }
 }
 
-export default Upload;
+export default withRouter(Upload);
