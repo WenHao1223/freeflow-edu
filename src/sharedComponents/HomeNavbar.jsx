@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, useEffect } from "react";
 import { NavLink, Outlet, Link } from "react-router-dom";
 import { upperCase } from "./utils";
 
@@ -7,12 +7,9 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 
 // // solana
-// import { WalletConnectProvide } from "../components/WalletConnectProvider";
-// import { Wallet } from "../components/Wallet"
-// import { useConnection, useWallet, useAnchorWallet } from '@solana/wallet-adapter-react';
-// // import { useWalletTokenBalance } from '@lndgalante/solutils';
-// import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
-// import { PublicKey, Transaction, SystemProgram } from '@solana/web3.js';
+// import { useTransferTokens } from '@lndgalante/solutils';
+// import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+// import { WalletMultiButton, WalletDisconnectButton } from '@solana/wallet-adapter-react-ui';
 
 // import Button from "../components/Button";
 
@@ -31,16 +28,15 @@ const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 
 const HomeNavbar = (props) => {
-    console.log(props.state.user);
-    const docUser = doc(db, "Users", props.state.user.uid);
 
-    // const { publicKey } = useWallet();
+    // solana hooks
     // const { connection } = useConnection();
+    // const { publicKey, sendTransaction } = useWallet();
 
-    // const wallet = useAnchorWallet();
-    // const [txHash, setTxHash] = useState(null);
+    // solutils hooks
+    // const { getTransferTokensReceipt, result, status, error } = useTransferTokens(publicKey, connection, sendTransaction);
 
-
+    const docUser = doc(db, "Users", props.state.user.uid);
     const getDocUser = async () => {
         try {
             const doc = await getDoc(docUser);
@@ -55,12 +51,7 @@ const HomeNavbar = (props) => {
 
     getDocUser();
 
-    // function handleWalletBalanceRequest() {
-    //     if (publicKey) {
-    //         getWalletTokenBalance('SOL');
-    //     }
-    // }
-    console.log(props.state.user);
+    console.log(props.state.walletAddress);
     return (
         <>
             <nav className='navbar'>
@@ -76,9 +67,9 @@ const HomeNavbar = (props) => {
                     <p id="t_role"></p>
                 </Link>
 
+                {props.renderNotConnectedContainer()}
+
             </nav>
-            {/* <WalletMultiButton/>
-            <button onClick={handleWalletBalanceRequest}>Request Wallet Balance</button> */}
 
             <Outlet/>
         </>

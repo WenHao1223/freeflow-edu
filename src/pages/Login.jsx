@@ -9,7 +9,6 @@ class Login extends Component {
         super(props);
 
         this.updateUserState = props.updateUserState;
-        this.updateCredentialState = props.updateCredentialState;
         
         this.state = props.state;
         this.setState = this.setState.bind(this);
@@ -33,12 +32,10 @@ class Login extends Component {
                     const credential = userCredential;
 
                     this.setState({
-                        user: user,
-                        credential: credential
+                        user: user
                     });
     
                     this.props.updateUserState(user);
-                    this.props.updateCredentialState(credential);
                     
                     if(document.getElementById("c_rmb_me").checked){
                         localStorage.setItem("user", JSON.stringify(user));
@@ -78,12 +75,10 @@ class Login extends Component {
                 const email = result.user.email;
 
                 this.setState({
-                    user: user,
-                    credential: credential
+                    user: user
                 });
 
                 this.props.updateUserState(user);
-                this.props.updateCredentialState(credential);
                 
                 if(document.getElementById("c_rmb_me").checked){
                     localStorage.setItem("user", JSON.stringify(user));
@@ -118,12 +113,10 @@ class Login extends Component {
                 })
 
                 this.setState({
-                    user: user,
-                    credential: credential
+                    user: user
                 });
 
                 this.props.updateUserState(user);
-                this.props.updateCredentialState(credential);
 
                 if(document.getElementById("c_rmb_me").checked){
                     localStorage.setItem("user", JSON.stringify(user));

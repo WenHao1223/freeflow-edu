@@ -9,7 +9,6 @@ class Register extends Component {
         super(props);
 
         this.updateUserState = props.updateUserState;
-        this.updateCredentialState = props.updateCredentialState;
         
         this.state = props.state;
         this.setState = this.setState.bind(this);
@@ -46,12 +45,10 @@ class Register extends Component {
                             })
 
                             this.setState({
-                                user: user,
-                                credential: userCredential
+                                user: user
                             });
                             
                             this.props.updateUserState(user);
-                            this.props.updateCredentialState(userCredential);
 
                             if(document.getElementById("c_rmb_me").checked){
                                 localStorage.setItem("user", JSON.stringify(user));
@@ -96,12 +93,10 @@ class Register extends Component {
                     const email = result.user.email;
     
                     this.setState({
-                        user: user,
-                        credential: credential
+                        user: user
                     });
 
                     this.props.updateUserState(user);
-                    this.props.updateCredentialState(credential);
 
                     if(document.getElementById("c_rmb_me").checked){
                         localStorage.setItem("user", JSON.stringify(user));

@@ -46,7 +46,7 @@ class App extends Component {
 
         this.state = {
             user: null || JSON.parse(localStorage.getItem("user")),
-            credential: null
+            walletAddress: null
         };
     }
     
@@ -57,6 +57,8 @@ class App extends Component {
                 user: JSON.parse(localStorage.getItem("user"))
             });
         }
+
+        this.checkIfWalletIsConnected();
     }
 
     auth = getAuth();
@@ -69,38 +71,61 @@ class App extends Component {
         console.log(this.state);
     }
 
-    updateCredentialState = (data) => {
-        this.setState({
-            credential: data
-        });
+    checkIfWalletIsConnected = async () => {
+        if (window?.solana?.isPhantom) {
+            console.log('Phantom wallet found!');
+            const response = await window.solana.connect({ onlyIfTrusted: true });
+            console.log('Connected with Public Key:', response.publicKey.toString());
 
-        console.log(this.state);
+            this.setState({walletAddress: response.publicKey.toString()});
+
+            return true;
+        } else {
+            console.log('Solana object not found! Get a Phantom Wallet 👻');
+            return false;
+        }
+    };
+
+    connectWallet = async () => {
+        const { solana } = window;
+        
+        if (solana) {
+            const response = await solana.connect().catch(() => {
+                alert("Fail to connect Wallet. Have you login to your Phantom wallet?");
+            });
+            console.log('Connected with Public Key:', response.publicKey.toString());
+            this.setState({walletAddress: response.publicKey.toString()});
+        } else {
+            alert("You do not have a Phantom wallet. Please install it from your web browser extension store.");
+        }
+    };
+
+    disconnectWallet = async () => {
+        if (solana) {
+            const response = await solana.disconnect();
+            console.log('Disconnected with Public Key:', this.state.walletAddress);
+            this.setState({walletAddress: null});
+        }
     }
 
-    render() {
-        
-        console.log(this.state.user);
+    renderNotConnectedContainer = () => (
+        <button className="cta-button connect-wallet-button" onClick={ !this.state.walletAddress ? this.connectWallet : this.disconnectWallet }>
+            <img src="https://3632261023-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-MVOiF6Zqit57q_hxJYp%2Ficon%2FU7kNZ4ygz4QW1rUwOuTT%2FWhite%20Ghost_docs_nu.svg?alt=media&token=447b91f6-db6d-4791-902d-35d75c19c3d1" alt="Phantom" width="64px"/>
+            { !this.state.walletAddress ? "Connect to Wallet" : "Disconnect from Wallet "+this.state.walletAddress }
+        </button>
+    );
 
+    render() {
         if (!(this.state.user || JSON.parse(localStorage.getItem("user")))){
             // alert("Session has expired. Login again.");
             console.log("Session has expired. Login again.")
-            // signOut(this.auth)
-            // .then((result) => {
-            //     this.setState({
-            //         user: null,
-            //         credential: null
-            //     });
-            // })
-            // .catch((error) => {
-            //     console.log(error);
-            // });
 
             return (
                 <BrowserRouter>
                     <Routes>
                         <Route exact path="/freeflow-edu/" element={<LoginNavbar/>}>
-                            <Route index active element={<Login state={this.state} updateUserState={this.updateUserState} updateCredentialState={this.updateCredentialState}/>}/>
-                            <Route path="register" element={<Register state={this.state} updateUserState={this.updateUserState} updateCredentialState={this.updateCredentialState}/>}/>
+                            <Route index active element={<Login state={this.state} updateUserState={this.updateUserState}/>}/>
+                            <Route path="register" element={<Register state={this.state} updateUserState={this.updateUserState}/>}/>
                             <Route path="sign-out" element={<SignOut/>}/>
                             <Route path="*" element={<Error/>}/>
                         </Route>
@@ -109,15 +134,14 @@ class App extends Component {
             );
         } else {
             console.log(this.state.user);
-            console.log(this.state.credential);
 
             return (
                 <BrowserRouter>
                     <Routes>
-                        <Route exact path="/freeflow-edu/" element={<HomeNavbar state={this.state}/>}>
+                        <Route exact path="/freeflow-edu/" element={<HomeNavbar state={this.state} renderNotConnectedContainer={this.renderNotConnectedContainer}/>}>
                             <Route index active element={<Home state={this.state}/>}/>
                             <Route path="profile" element={<Profile/>}/>
-                            <Route path="sign-out" element={<SignOut state={this.state} updateUserState={this.updateUserState} updateCredentialState={this.updateCredentialState}/>}/>
+                            <Route path="sign-out" element={<SignOut state={this.state} updateUserState={this.updateUserState}/>}/>
                             <Route path="register" element={<Register state={this.state} updateUserState={this.updateUserState}/>}/>
                             <Route path="upload" element={<Upload state={this.state}/>}/>
                             <Route path="first-time-user" element={<FirstTimeUser state={this.state}/>}/>

@@ -7,7 +7,6 @@ class SignOut extends Component {
         super(props);
 
         this.updateUserState = props.updateUserState;
-        this.updateCredentialState = props.updateCredentialState;
 
         this.state = props.state;
         this.setState = this.setState.bind(this);
@@ -19,12 +18,10 @@ class SignOut extends Component {
         signOut(this.auth)
             .then((result) => {
                 this.setState({
-                    user: null,
-                    credential: null
+                    user: null
                 });
         
                 this.props.updateUserState(null);
-                this.props.updateCredentialState(null);
             })
             .catch((error) => {
                 console.log(error);
