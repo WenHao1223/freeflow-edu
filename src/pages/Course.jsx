@@ -3,6 +3,9 @@ const Course = (props) => {
         <>
             <h1>Course</h1>
             {props.url}
+
+            <img src="" alt="Thumbnail" />
+            
         </>
     );
 }
