@@ -1,6 +1,9 @@
-const Course = () => {
+const Course = (props) => {
     return(
-        <h1>Course</h1>
+        <>
+            <h1>Course</h1>
+            {props.url}
+        </>
     );
 }
 

@@ -99,7 +99,7 @@ class Upload extends Component {
                             $("#main").attr("disabled", true);
                             const docRef = await addDoc(collection(db, "Course"), {
                                 title: $("#t_title").val(),
-                                des: $("#t_des").val(),
+                                des: $("#t_des").val().split("\n"),
                                 eduLvl: $("#c_level").val(),
                                 sub: $("#t_sub").val(),
                                 lang: $("#t_lang").val(),

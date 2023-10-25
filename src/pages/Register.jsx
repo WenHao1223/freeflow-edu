@@ -169,7 +169,7 @@ class Register extends Component {
     render() {
         if(this.state.user){
             console.log("loged in");
-            return <Navigate to="/"></Navigate>
+            return <Navigate to="/freeflow-edu/"></Navigate>
         }
 
         console.log(this.state.user);
@@ -205,7 +205,7 @@ class Register extends Component {
                     <br/>
                     <label>
                         <input onKeyUp={this.handleKeyPress} type="checkbox" name="" id="c_privacy" />
-                        I agree to the Privacy Policy, and Terms and Conditions of FreeFlow Edu app.
+                        I agree to the <a href="privacy_policy.html" target="_blank">Privacy Policy</a>, and <a href="terms_and_conditions.html" target="_blank">Terms and Conditions</a> of FreeFlow Edu app.
                     </label>
                     <br/>
                     <label>
