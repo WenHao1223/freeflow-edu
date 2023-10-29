@@ -4,7 +4,7 @@ import withRouter from "../sharedComponents/withRouter";
 
 // firebase
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 
 // solana
@@ -103,10 +103,12 @@ class Upload extends Component {
                                 eduLvl: $("#c_level").val(),
                                 sub: $("#t_sub").val(),
                                 lang: $("#t_lang").val(),
-                                sol: $("#t_sol").val(),
+                                sol: parseFloat($("#t_sol").val()),
                                 tag: [...this.state.tag],
                                 userUID: this.state.user.uid,
-                                mode: this.state.choice
+                                mode: this.state.choice,
+                                uploadTime: serverTimestamp(),
+                                view: 0
                             });
                             console.log("Document written with ID: ", docRef.id);
         
