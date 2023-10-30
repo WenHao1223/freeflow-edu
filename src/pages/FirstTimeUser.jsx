@@ -90,7 +90,10 @@ class FirstTimeUser extends Component {
                 role: this.state.role,
                 recommendBy: this.state.recommendBy,
                 eduLvl: this.state.eduLvl,
-                country: this.state.country
+                country: this.state.country,
+                displayName: this.state.user.displayName,
+                email: this.state.user.email,
+                photoURL: this.state.user.photoURL
             });
         } catch (e) {
             console.log("Error adding document of first-time login user: ", e);

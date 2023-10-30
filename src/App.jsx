@@ -10,6 +10,7 @@ import { getAuth, signOut } from 'firebase/auth';
 // shared components
 import LoginNavbar from './sharedComponents/LoginNavbar';
 import HomeNavbar from './sharedComponents/HomeNavbar';
+import SOLtoUSD from './pages/SOLtoUSD';
 
 // pages
 import Login from './pages/Login';
@@ -116,6 +117,7 @@ class App extends Component {
     );
 
     render() {
+        console.log(this.state);
         if (!(this.state.user || JSON.parse(localStorage.getItem("user")))){
             // alert("Session has expired. Login again.");
             console.log("Session has expired. Login again.")
@@ -143,7 +145,7 @@ class App extends Component {
                             <Route path="profile" element={<Profile/>}/>
                             <Route path="sign-out" element={<SignOut state={this.state} updateUserState={this.updateUserState}/>}/>
                             <Route path="register" element={<Register state={this.state} updateUserState={this.updateUserState}/>}/>
-                            <Route path="course" element={<Course url={"NKhOJlRJGuXue92RXKso"} state={this.state}/>}/>
+                            <Route path="course" element={<Course url={"SwCgPZXZQN32PHS7wfOI"} state={this.state}/>}/>
                             <Route path="upload" element={<Upload state={this.state}/>}/>
                             <Route path="first-time-user" element={<FirstTimeUser state={this.state}/>}/>
                             <Route path="*" element={<Error/>}/>
@@ -152,7 +154,6 @@ class App extends Component {
                 </BrowserRouter>
             );
         }
-
     }
     
 }

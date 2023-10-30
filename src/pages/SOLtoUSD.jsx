@@ -15,7 +15,7 @@ const SOLtoUSD = (props) => {
         fetchData();
     }, []);
 
-    return rate*props.sol;
+    return (rate*props.sol).toFixed(6);
 }
 
 export default SOLtoUSD;
