@@ -5,6 +5,7 @@ import { Ripple, initTE } from "tw-elements";
 import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth';
 import { getFirestore, doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 import { isArrayEmpty, upperCase } from "../sharedComponents/utils";
 import { useSearchParams } from "react-router-dom";
@@ -23,6 +24,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
+const storage = getStorage(firebaseApp);
 
 const Course = (props) => {
     useEffect(() => {
@@ -74,6 +76,12 @@ const Course = (props) => {
             };
             fetchDocTutor();
 
+            const imgRef = ref(storage, props.url+"/thumbnail.jpg");
+            getDownloadURL(imgRef).then((url) => {
+                $("#card_img").attr("src", url);
+            });
+
+
             const docUser = doc(db, "Users", props.state.user.uid);
             const fetchDocUser = async () => {
                 const getDocUser = await getDoc(docUser);
@@ -123,7 +131,7 @@ const Course = (props) => {
             <p className="mb-6 text-base text-neutral-500 dark:text-neutral-300">ID: {props.url}</p>
 
             <div className="flex flex-col rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700 max-w-6xl md:flex-row">
-                <img className="h-96 w-full rounded-t-lg object-cover md:!rounded-none md:!rounded-l-lg h-auto" src="https://tecdn.b-cdn.net/wp-content/uploads/2020/06/vertical.jpg" alt="Course thumbnail" />
+                <img className="h-96 w-full rounded-t-lg object-cover md:!rounded-none md:!rounded-l-lg h-auto" src="" alt="Course thumbnail" id="card_img"/>
                 <div className="flex flex-col justify-start max-w-3xl p-6">
                     <h5 className="mb-2 text-xl font-medium text-neutral-800 dark:text-neutral-50" id="card_title"></h5>
                     <p className="mb-4 text-sm text-warning-600 dark:text-warning-400">* <span id="card_mode"></span> included.</p>

@@ -4,8 +4,8 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
 // firebase
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { getAuth, signOut } from 'firebase/auth';
+import { doc, getFirestore, updateDoc } from "firebase/firestore";
 
 // shared components
 import LoginNavbar from './sharedComponents/LoginNavbar';
@@ -37,7 +37,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
-const firebaseAnalytics = getAnalytics(firebaseApp);
+const db = getFirestore(firebaseApp);
 
 // StyleSheet
 import './App.css'
@@ -54,7 +54,6 @@ class App extends Component {
     
     componentDidMount() {
         if(this.state.user !== null && JSON.parse(localStorage.getItem("user"))){
-            console.log(JSON.parse(localStorage.getItem("user")));
             this.setState({
                 user: JSON.parse(localStorage.getItem("user"))
             });
@@ -80,6 +79,12 @@ class App extends Component {
             console.log('Connected with Public Key:', response.publicKey.toString());
 
             this.setState({walletAddress: response.publicKey.toString()});
+            const docUser = doc(db, "Users", this.state.user.uid);
+            await updateDoc(docUser, {
+                walletAddress: response.publicKey.toString()
+            }).then(() => {
+                alert("Wallet address " + this.state.walletAddress + " is connected with your FreeFlow Edu account now.");
+            });
 
             return true;
         } else {
@@ -97,6 +102,12 @@ class App extends Component {
             });
             console.log('Connected with Public Key:', response.publicKey.toString());
             this.setState({walletAddress: response.publicKey.toString()});
+            const docUser = doc(db, "Users", this.state.user.uid);
+            await updateDoc(docUser, {
+                walletAddress: response.publicKey.toString()
+            }).then(() => {
+                alert("Wallet address " + this.state.walletAddress + " is connected with your FreeFlow Edu account now.");
+            });
         } else {
             alert("You do not have a Phantom wallet. Please install it from your web browser extension store.");
         }
@@ -106,7 +117,12 @@ class App extends Component {
         if (solana) {
             const response = await solana.disconnect();
             console.log('Disconnected with Public Key:', this.state.walletAddress);
+            alert("Wallet address" + this.state.walletAddress + " is disconnected from your FreeFlow Edu account now.");
             this.setState({walletAddress: null});
+            const docUser = doc(db, "Users", this.state.user.uid);
+            await updateDoc(docUser, {
+                walletAddress: null
+            });
         }
     }
 
@@ -116,6 +132,10 @@ class App extends Component {
             { !this.state.walletAddress ? "Connect to Wallet" : "Disconnect from Wallet "+this.state.walletAddress }
         </button>
     );
+
+    // sendSOL = (recipentAddress, amount) => {
+
+    // }
 
     render() {
         console.log(this.state);
@@ -136,8 +156,6 @@ class App extends Component {
                 </BrowserRouter>
             );
         } else {
-            console.log(this.state.user);
-
             return (
                 <BrowserRouter>
                     <Routes>
