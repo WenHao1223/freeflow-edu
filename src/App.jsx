@@ -20,6 +20,7 @@ import FirstTimeUser from './pages/FirstTimeUser';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Course from './pages/Course';
+import Wishlist from './pages/Wishlist';
 import Upload from './pages/Upload';
 import SignOut from './pages/SignOut';
 import Error from './pages/Error';
@@ -145,7 +146,9 @@ class App extends Component {
                             <Route path="profile" element={<Profile/>}/>
                             <Route path="sign-out" element={<SignOut state={this.state} updateUserState={this.updateUserState}/>}/>
                             <Route path="register" element={<Register state={this.state} updateUserState={this.updateUserState}/>}/>
-                            <Route path="course" element={<Course url={"SwCgPZXZQN32PHS7wfOI"} state={this.state}/>}/>
+                            {/* SwCgPZXZQN32PHS7wfOI */}
+                            <Route path="course" element={<Course url={"hIUj0FUmoygUHmC3Om46"} state={this.state}/>}/>
+                            <Route path="wishlist" element={<Wishlist state={this.state}/>}/>
                             <Route path="upload" element={<Upload state={this.state}/>}/>
                             <Route path="first-time-user" element={<FirstTimeUser state={this.state}/>}/>
                             <Route path="*" element={<Error/>}/>

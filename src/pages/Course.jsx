@@ -4,7 +4,7 @@ import { Ripple, initTE } from "tw-elements";
 // firebase
 import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth';
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 
 import { isArrayEmpty, upperCase } from "../sharedComponents/utils";
 import { useSearchParams } from "react-router-dom";
@@ -36,16 +36,14 @@ const Course = (props) => {
     }, [$("#card_sol").text()]);
 
     const docRef = doc(db, "Course", props.url);
-
     const fetchDocRef = async () => {
         const getDocRef = await getDoc(docRef);
         if (getDocRef.exists()) {
-            console.log(getDocRef.data());
             $("#card_title").text(upperCase(getDocRef.data().title));
             $("#card_des").text(getDocRef.data().des);
             $("#card_sub").text(upperCase(getDocRef.data().sub));
-            $("#card_lang").text(upperCase(getDocRef.data().lang));
             $("#card_level").text(upperCase(getDocRef.data().eduLvl));
+            $("#card_lang").text(upperCase(getDocRef.data().lang));
             $("#card_sol").text(getDocRef.data().sol);
             $("#card_uploadTime").text(new Date(getDocRef.data().uploadTime.seconds*1000).toLocaleString());
             if (getDocRef.data().mode === "both") {
@@ -64,13 +62,32 @@ const Course = (props) => {
             }
             generateTag();
             $("#card_tag").html(generateTag);
-
             
-            getUser(uid).then((tutorRecord) => {
-                console.log(tutorRecord);
-            }).catch((error) => {
-                console.log("Error fetching user data: ", error);
-            })
+            const docTutor = doc(db, "Users", getDocRef.data().userUID);
+            const fetchDocTutor = async () => {
+                const getDocTutor = await getDoc(docTutor);
+                if (getDocTutor.exists()) {
+                    $("#card_tutor").text(getDocTutor.data().displayName);
+                } else {
+                    console.log("No such document for Users with UID of", getDocTutor.data().userUID);
+                }
+            };
+            fetchDocTutor();
+
+            const docUser = doc(db, "Users", props.state.user.uid);
+            const fetchDocUser = async () => {
+                const getDocUser = await getDoc(docUser);
+                if (getDocUser.exists()) {
+                    if (getDocUser.data().wishlist.indexOf(props.url) >= 0){
+                        $("#b_wishlist").text("- REMOVE FROM WISHLIST");
+                    } else {
+                        $("#b_wishlist").text("+ ADD TO WISHLIST");
+                    }
+                } else {
+                    console.log("No such document for User with UID", props.state.user.uid);
+                }
+            }
+            fetchDocUser();
 
         } else {
             console.log("No such document for Course with link", props.url);
@@ -78,6 +95,26 @@ const Course = (props) => {
     };
 
     fetchDocRef();
+
+    const addToWishlist = () => {
+        const docUser = doc(db, "Users", props.state.user.uid);
+        const fetchDocUser = async () => {
+            if ($("#b_wishlist").text() === "+ ADD TO WISHLIST") {
+                await updateDoc(docUser, {
+                    wishlist: arrayUnion(props.url)
+                });
+                $("#b_wishlist").text("- REMOVE FROM WISHLIST");
+                alert("Added to wishlist!");
+            } else {
+                await updateDoc(docUser, {
+                    wishlist: arrayRemove(props.url)
+                });
+                $("#b_wishlist").text("+ ADD TO WISHLIST");
+                alert("Removed from wishlist!");
+            }
+        };
+        fetchDocUser();
+    };
 
 
     return(
@@ -109,7 +146,7 @@ const Course = (props) => {
                     <p className="text-xs text-neutral-500 dark:text-neutral-300 mb-4">Uploaded on <span id="card_uploadTime"></span></p>
                     <div className="w-full grid grid-cols-2 gap-2">
                     <button type="button" className="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]" data-te-ripple-init data-te-ripple-color="light">Enroll</button>
-                    <button type="button" className="inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200" data-te-ripple-init data-te-ripple-color="light">+ Add to Wishlist</button>
+                    <button onClick={addToWishlist} type="button" className="inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200" data-te-ripple-init data-te-ripple-color="light" id="b_wishlist"> Add to Wishlist</button>
                     </div>
                 </div>
             </div>
