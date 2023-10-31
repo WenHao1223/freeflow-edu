@@ -44,6 +44,9 @@ const HomeNavbar = (props) => {
             if(doc.data()["role"] === "teacher") {
                 $("#uploadLink").attr("style", "display: inherit");
             }
+            if(!props.state.role || props.state.role !== doc.data()["role"]){
+                props.updateRoleState(doc.data()["role"]);
+            }
         } catch (e) {
             console.log("Error reading document of collection Users: ", e);
         }

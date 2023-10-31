@@ -25,6 +25,7 @@ import Upload from './pages/Upload';
 import SignOut from './pages/SignOut';
 import Error from './pages/Error';
 
+
 const firebaseConfig = {
     apiKey: "AIzaSyAj-GUmYIXPUpAoFSAmQaiQ7to35EqqgvI",
     authDomain: "freeflow-edu.firebaseapp.com",
@@ -43,12 +44,14 @@ const db = getFirestore(firebaseApp);
 import './App.css'
 
 class App extends Component {
+
     constructor(props) {
         super(props);
 
         this.state = {
             user: null || JSON.parse(localStorage.getItem("user")),
-            walletAddress: null
+            walletAddress: null,
+            role: null
         };
     }
     
@@ -68,6 +71,12 @@ class App extends Component {
         this.setState({
             user: data
         });
+    }
+
+    updateRoleState = (data) => {
+        this.setState({
+            role: data
+        });
 
         console.log(this.state);
     }
@@ -83,7 +92,7 @@ class App extends Component {
             await updateDoc(docUser, {
                 walletAddress: response.publicKey.toString()
             }).then(() => {
-                alert("Wallet address " + this.state.walletAddress + " is connected with your FreeFlow Edu account now.");
+                // alert("Wallet address " + this.state.walletAddress + " is connected with your FreeFlow Edu account now.");
             });
 
             return true;
@@ -106,7 +115,7 @@ class App extends Component {
             await updateDoc(docUser, {
                 walletAddress: response.publicKey.toString()
             }).then(() => {
-                alert("Wallet address " + this.state.walletAddress + " is connected with your FreeFlow Edu account now.");
+                // alert("Wallet address " + this.state.walletAddress + " is connected with your FreeFlow Edu account now.");
             });
         } else {
             alert("You do not have a Phantom wallet. Please install it from your web browser extension store.");
@@ -120,9 +129,6 @@ class App extends Component {
             alert("Wallet address" + this.state.walletAddress + " is disconnected from your FreeFlow Edu account now.");
             this.setState({walletAddress: null});
             const docUser = doc(db, "Users", this.state.user.uid);
-            await updateDoc(docUser, {
-                walletAddress: null
-            });
         }
     }
 
@@ -132,10 +138,6 @@ class App extends Component {
             { !this.state.walletAddress ? "Connect to Wallet" : "Disconnect from Wallet "+this.state.walletAddress }
         </button>
     );
-
-    // sendSOL = (recipentAddress, amount) => {
-
-    // }
 
     render() {
         console.log(this.state);
@@ -159,13 +161,13 @@ class App extends Component {
             return (
                 <BrowserRouter>
                     <Routes>
-                        <Route exact path="/freeflow-edu/" element={<HomeNavbar state={this.state} renderNotConnectedContainer={this.renderNotConnectedContainer}/>}>
+                        <Route exact path="/freeflow-edu/" element={<HomeNavbar state={this.state} renderNotConnectedContainer={this.renderNotConnectedContainer} updateRoleState={this.updateRoleState}/>}>
                             <Route index active element={<Home state={this.state}/>}/>
                             <Route path="profile" element={<Profile/>}/>
                             <Route path="sign-out" element={<SignOut state={this.state} updateUserState={this.updateUserState}/>}/>
                             <Route path="register" element={<Register state={this.state} updateUserState={this.updateUserState}/>}/>
-                            {/* SwCgPZXZQN32PHS7wfOI */}
-                            <Route path="course" element={<Course url={"hIUj0FUmoygUHmC3Om46"} state={this.state}/>}/>
+                            {/* SwCgPZXZQN32PHS7wfOI, 34UHqGokBnRqsJGsNILh */}
+                            <Route path="course" element={<Course url={"SwCgPZXZQN32PHS7wfOI"} state={this.state}/>}/>
                             <Route path="wishlist" element={<Wishlist state={this.state}/>}/>
                             <Route path="upload" element={<Upload state={this.state}/>}/>
                             <Route path="first-time-user" element={<FirstTimeUser state={this.state}/>}/>
