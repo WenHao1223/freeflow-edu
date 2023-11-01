@@ -20,7 +20,6 @@ import FirstTimeUser from './pages/FirstTimeUser';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Course from './pages/Course';
-import Wishlist from './pages/Wishlist';
 import Upload from './pages/Upload';
 import SignOut from './pages/SignOut';
 import Error from './pages/Error';
@@ -163,12 +162,11 @@ class App extends Component {
                     <Routes>
                         <Route exact path="/freeflow-edu/" element={<HomeNavbar state={this.state} renderNotConnectedContainer={this.renderNotConnectedContainer} updateRoleState={this.updateRoleState}/>}>
                             <Route index active element={<Home state={this.state}/>}/>
-                            <Route path="profile" element={<Profile/>}/>
+                            <Route path="profile/:id" element={<Profile state={this.state}/>}/>
                             <Route path="sign-out" element={<SignOut state={this.state} updateUserState={this.updateUserState}/>}/>
                             <Route path="register" element={<Register state={this.state} updateUserState={this.updateUserState}/>}/>
                             {/* SwCgPZXZQN32PHS7wfOI, 34UHqGokBnRqsJGsNILh */}
-                            <Route path="course" element={<Course url={"SwCgPZXZQN32PHS7wfOI"} state={this.state}/>}/>
-                            <Route path="wishlist" element={<Wishlist state={this.state}/>}/>
+                            <Route path="course/:url" element={<Course state={this.state}/>}/>
                             <Route path="upload" element={<Upload state={this.state}/>}/>
                             <Route path="first-time-user" element={<FirstTimeUser state={this.state}/>}/>
                             <Route path="*" element={<Error/>}/>

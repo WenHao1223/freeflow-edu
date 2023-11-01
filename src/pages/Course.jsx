@@ -8,7 +8,7 @@ import { getFirestore, doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "f
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 import { isArrayEmpty, upperCase } from "../sharedComponents/utils";
-import { useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 // solana
 import SOLtoUSD from "./SOLtoUSD";
@@ -31,6 +31,8 @@ const db = getFirestore(firebaseApp);
 const storage = getStorage(firebaseApp);
 
 const Course = (props) => {
+    const { url } = useParams();
+
     useEffect(() => {
         initTE({ Ripple });
     }, []);
@@ -43,7 +45,7 @@ const Course = (props) => {
         $("#card_price").text(rate);
     }, [$("#card_sol").text()]);
 
-    const docRef = doc(db, "Course", props.url);
+    const docRef = doc(db, "Course", url);
     const fetchDocRef = async () => {
         const getDocRef = await getDoc(docRef);
         if (getDocRef.exists()) {
@@ -82,7 +84,7 @@ const Course = (props) => {
             };
             fetchDocTutor();
 
-            const imgRef = ref(storage, props.url+"/thumbnail.jpg");
+            const imgRef = ref(storage, url+"/thumbnail.jpg");
             getDownloadURL(imgRef).then((url) => {
                 $("#card_img").attr("src", url);
             });
@@ -93,14 +95,14 @@ const Course = (props) => {
                 const getDocUser = await getDoc(docUser);
                 if (getDocUser.exists()) {
                     if (getDocUser.data().wishlist){
-                        if (getDocUser.data().wishlist.indexOf(props.url) >= 0){
+                        if (getDocUser.data().wishlist.indexOf(url) >= 0){
                             $("#b_wishlist").text("- REMOVE FROM WISHLIST");
                         } else {
                             $("#b_wishlist").text("+ ADD TO WISHLIST");
                         }
                     }
                     if (getDocUser.data().enrolled){
-                        if (getDocUser.data().enrolled.indexOf(props.url) >= 0){
+                        if (getDocUser.data().enrolled.indexOf(url) >= 0){
                             $("#b_enroll").text("ENROLLED");
                             $("#b_enroll").attr("disabled", true);
                         } else {
@@ -114,7 +116,7 @@ const Course = (props) => {
             fetchDocUser();
 
         } else {
-            console.log("No such document for Course with link", props.url);
+            console.log("No such document for Course with link", url);
         }
     };
 
@@ -125,13 +127,13 @@ const Course = (props) => {
         const fetchDocUser = async () => {
             if ($("#b_wishlist").text() === "+ ADD TO WISHLIST") {
                 await updateDoc(docUser, {
-                    wishlist: arrayUnion(props.url)
+                    wishlist: arrayUnion(url)
                 });
                 $("#b_wishlist").text("- REMOVE FROM WISHLIST");
                 alert("Added to wishlist!");
             } else {
                 await updateDoc(docUser, {
-                    wishlist: arrayRemove(props.url)
+                    wishlist: arrayRemove(url)
                 });
                 $("#b_wishlist").text("+ ADD TO WISHLIST");
                 alert("Removed from wishlist!");
@@ -205,7 +207,7 @@ const Course = (props) => {
             const docUser = doc(db, "Users", props.state.user.uid);
             const fetchDocUser = async () => {
                 await updateDoc(docUser, {
-                    enrolled: arrayUnion(props.url)
+                    enrolled: arrayUnion(url)
                 });
                 $("#b_enroll").text("ENROLLED");
                 $("#b_enroll").attr("disabled", true);
@@ -221,7 +223,7 @@ const Course = (props) => {
     return(
         <>
             <h1 className="mb-2">Course</h1>
-            <p className="mb-6 text-base text-neutral-500 dark:text-neutral-300">ID: {props.url}</p>
+            <p className="mb-6 text-base text-neutral-500 dark:text-neutral-300">ID: {url}</p>
 
             <div className="flex flex-col rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700 max-w-6xl md:flex-row">
                 <img className="w-1/2 rounded-t-lg object-cover md:!rounded-none md:!rounded-l-lg" src="" alt="Course thumbnail" id="card_img"/>
