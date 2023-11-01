@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { createRoot } from 'react-dom/client';
 import { Ripple, initTE } from "tw-elements";
 
 // firebase
@@ -32,6 +33,8 @@ const storage = getStorage(firebaseApp);
 
 const Course = (props) => {
     const { url } = useParams();
+
+    const [enrolled, setEnrolled] = useState(false);
 
     useEffect(() => {
         initTE({ Ripple });
@@ -89,7 +92,6 @@ const Course = (props) => {
                 $("#card_img").attr("src", url);
             });
 
-
             const docUser = doc(db, "Users", props.state.user.uid);
             const fetchDocUser = async () => {
                 const getDocUser = await getDoc(docUser);
@@ -105,6 +107,7 @@ const Course = (props) => {
                         if (getDocUser.data().enrolled.indexOf(url) >= 0){
                             $("#b_enroll").text("ENROLLED");
                             $("#b_enroll").attr("disabled", true);
+                            setEnrolled(true);
                         } else {
                             $("#b_enroll").text("ENROLL NOW");
                         }
@@ -211,6 +214,7 @@ const Course = (props) => {
                 });
                 $("#b_enroll").text("ENROLLED");
                 $("#b_enroll").attr("disabled", true);
+                setEnrolled(true);
             }
             fetchDocUser();
             alert("Enrolled with special discount #FreeHelpEdu");
@@ -219,6 +223,25 @@ const Course = (props) => {
             sendSOL(props.state.walletAddress, "NraaJwoeNHCu5Wu1iRm1cfvx7NLKgySnTv76dU5T7oH", 0.02);
         }
     }
+
+    useEffect(() => {
+        if(enrolled) {
+            const videoRef = ref(storage, url+"/video.mp4");
+            getDownloadURL(videoRef).then((videoURL) => {
+                $("#media_area").html($("#media_area").html()+`<h1>Video</h1><video width="100%" height="100%" controls><source src="${videoURL}" type="video/mp4">Your browser does not support the video tag.</video>`);
+            });
+
+            const notesRef = ref(storage, url+"/notes.pdf");
+            getDownloadURL(notesRef).then((notesURL) => {
+                $("#media_area").html($("#media_area").html()+`<h1>Notes</h1><object data="https://media.geeksforgeeks.org/wp-content/cdn-uploads/20210101201653/PDF.pdf" width="100%" height="800"></object>`);
+            });
+            
+            // const root = createRoot(document.getElementById("media_area"));
+            // root.render(
+            //     <></>
+            // );
+        }
+    }, [enrolled]);
 
     return(
         <>
@@ -253,6 +276,8 @@ const Course = (props) => {
                     </div>
                 </div>
             </div>
+            <br />
+            <div id="media_area"></div>
         </>
     );
 }
