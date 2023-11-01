@@ -9,7 +9,7 @@ import { getFirestore, doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "f
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 import { isArrayEmpty, upperCase } from "../sharedComponents/utils";
-import { useParams } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 
 // solana
 import SOLtoUSD from "./SOLtoUSD";
@@ -33,8 +33,10 @@ const storage = getStorage(firebaseApp);
 
 const Course = (props) => {
     const { url } = useParams();
+    const navigate = useNavigate();
 
     const [enrolled, setEnrolled] = useState(false);
+    const [tutorID, setTutorID] = useState(null);
 
     useEffect(() => {
         initTE({ Ripple });
@@ -75,11 +77,16 @@ const Course = (props) => {
             }
             generateTag();
             $("#card_tag").html(generateTag);
+
+            if(!tutorID) {
+                setTutorID(getDocRef.data().userUID);
+            }
             
             const docTutor = doc(db, "Users", getDocRef.data().userUID);
             const fetchDocTutor = async () => {
                 const getDocTutor = await getDoc(docTutor);
                 if (getDocTutor.exists()) {
+                    const root = createRoot(document.getElementById("card_tutor"));
                     $("#card_tutor").text(getDocTutor.data().displayName);
                 } else {
                     console.log("No such document for Users with UID of", getDocTutor.data().userUID);
@@ -204,6 +211,10 @@ const Course = (props) => {
 
     }
 
+    const toTutorProfile = () => {
+        navigate("../profile/"+tutorID);
+    }
+
     const enroll = () => {
         if (props.state.role === "special needy / refugee / disabilities") {
             console.log("Enrolling");
@@ -235,11 +246,6 @@ const Course = (props) => {
             getDownloadURL(notesRef).then((notesURL) => {
                 $("#media_area").html($("#media_area").html()+`<h1>Notes</h1><object data="https://media.geeksforgeeks.org/wp-content/cdn-uploads/20210101201653/PDF.pdf" width="100%" height="800"></object>`);
             });
-            
-            // const root = createRoot(document.getElementById("media_area"));
-            // root.render(
-            //     <></>
-            // );
         }
     }, [enrolled]);
 
@@ -259,7 +265,7 @@ const Course = (props) => {
                         <p className="text-sm text-neutral-600 dark:text-neutral-300"><b>Subject</b></p>
                         <p className="text-sm text-neutral-600 dark:text-neutral-300" id="card_sub"></p>
                         <p className="text-sm text-neutral-600 dark:text-neutral-300"><b>Tutor</b></p>
-                        <p className="text-sm text-neutral-600 dark:text-neutral-300" id="card_tutor"></p>
+                        <p className="text-sm text-neutral-600 dark:text-neutral-300 underline text-primary transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600 cursor-pointer" onClick={toTutorProfile} id="card_tutor"></p>
                         <p className="text-sm text-neutral-600 dark:text-neutral-300"><b>Level</b></p>
                         <p className="text-sm text-neutral-600 dark:text-neutral-300" id="card_level"></p>
                         <p className="text-sm text-neutral-600 dark:text-neutral-300"><b>Language</b></p>
