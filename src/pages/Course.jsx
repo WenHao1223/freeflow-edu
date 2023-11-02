@@ -5,7 +5,7 @@ import { Ripple, initTE } from "tw-elements";
 // firebase
 import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth';
-import { getFirestore, doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { getFirestore, doc, getDoc, updateDoc, arrayUnion, arrayRemove, collection, query, where, getDocs } from "firebase/firestore";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 import { isArrayEmpty, upperCase } from "../sharedComponents/utils";
@@ -129,8 +129,17 @@ const Course = (props) => {
             console.log("No such document for Course with link", url);
         }
     };
-
     fetchDocRef();
+
+    const fetchDocUsers = () => {
+        const q = query(collection(db, "Users"), where("enrolled", "array-contains", url));
+        const fetchQDocs = async () => {
+            const querySnapshot = await getDocs(q);
+            $("#card_enroll").text(querySnapshot.docs.length);
+        }
+        fetchQDocs();
+    }
+    fetchDocUsers();
 
     const addToWishlist = () => {
         const docUser = doc(db, "Users", props.state.user.uid);
