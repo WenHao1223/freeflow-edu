@@ -13,8 +13,15 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 
 // solana
 import SOLtoUSD from "./SOLtoUSD";
-import { useConnection, useWallet, useAnchorWallet } from '@solana/wallet-adapter-react';
-import { PublicKey, Transaction, SystemProgram } from '@solana/web3.js';
+// import { useConnection, useWallet, useAnchorWallet } from '@solana/wallet-adapter-react';
+// import { PublicKey, Transaction, SystemProgram } from '@solana/web3.js';
+
+import { Buffer } from "buffer";
+window.Buffer = Buffer;
+
+import { Connection, Keypair, LAMPORTS_PER_SOL, SystemProgram, Transaction, sendAndConfirmTransaction } from "@solana/web3.js";
+import bs58 from "bs58";
+const connection = new Connection("https://api.devnet.solana.com");
 
 const firebaseConfig = {
     apiKey: "AIzaSyAj-GUmYIXPUpAoFSAmQaiQ7to35EqqgvI",
@@ -43,8 +50,11 @@ const Course = (props) => {
     }, []);
 
     const [rate, setRate] = useState(props.rate);
-    const [txHash, setTxHash] = useState(null);
 
+    var wallet;
+    useEffect(() => {
+        wallet = props.state.walletAddress;
+    }, [props.state.walletAddress]);
     
     useEffect(() => {
         $("#card_price").text(rate);
@@ -173,22 +183,70 @@ const Course = (props) => {
     };
 
     const sendSOL = async (senderAddress, recipentAddress, amount) => {
+        console.log("sendSol");
         if(!recipentAddress && !amount) {
             console.log("Wallet address of recipent or amount to transfer not found!");
             return;
         }
-
+        
         // try {
-        //     const sender = new PublicKey(senderAddress);
-        //     const receiver = new PublicKey(recipentAddress);
-        //     console.log(sender, receiver);
-        //     const recentBlockhash = await connection.getRecentBlockhash();
+            const senderWallet = Keypair.fromSecretKey(
+                bs58.decode("5jfYsRoTwHAqpC1k8cB4iFd8zE7d1sduQoWYhBaUDSw9ydMMYerpMWfDCno5Bs7eatbokHE3KTRNZnDtzomGVsuf")
+            );
+            const receiverWallet = Keypair.fromSecretKey(
+                bs58.decode("2EhyfeJPRDYCdQFvZwc5ZUiMRASqhPt17N8a55WoZnnZ8B6d6G5ih87g4q8Li6wreZGcUEXWAoG9nxRTMbpenEXm")
+            );
+
+            console.log("checkpoint1");
+
+            const getBalance = async () => {
+                let senderBalance = await connection.getBalance(senderWallet.publicKey);
+                let receiverBalance = await connection.getBalance(receiverWallet.publicKey);
+                console.log(
+                    `Sender Balance: ${senderBalance / LAMPORTS_PER_SOL} SOL`
+                );
+                console.log(
+                    `Receiver Balance: ${receiverBalance / LAMPORTS_PER_SOL} SOL`
+                );
+                console.log("checkpoint2");
+            };
+            getBalance();
+
+            const startTranscation = async () => {
+                let senderBalance = await connection.getBalance(senderWallet.publicKey);
+                let receiverBalance = await connection.getBalance(receiverWallet.publicKey);
+
+                let transaction = new Transaction().add(
+                    SystemProgram.transfer({
+                        fromPubkey: senderWallet.publicKey,
+                        toPubkey: receiverWallet.publicKey,
+                        lamports: 0.02 * LAMPORTS_PER_SOL
+                    })
+                );
+                console.log("checkpoint3");
+
+                transaction.feePayer = senderWallet.publicKey;
+                console.log("checkpoint4");
+                console.log(connection, transaction, senderWallet, receiverWallet);
+
+                let transcationHash = await connection.sendTransaction(transaction, [senderWallet, receiverWallet,]);
+                console.log(transcationHash);
+
+                // let transactionHash = await connection.sendTransaction(transaction, [senderWallet, receiverWallet]);
+                // console.log("checkpoint5");
+                // console.log(transactionHash);
+            }
+            startTranscation();
+            // const sender = new PublicKey(senderAddress);
+            // const receiver = new PublicKey(recipentAddress);
+            // const recentBlockhash = await connection.getRecentBlockhash();
             
-        //     const provider = getProvider();
-        //     const network = "https://fragrant-wider-dawn.solana-devnet.discover.quiknode.pro/e28bd823c1b8e232f77b0d36425d13b00e22c4f9/";
-        //     const { connection } = useConnection(network);
-        //     const { publicKey } = useWallet();
-        //     const wallet = useAnchorWallet();
+            // const provider = getProvider();
+            // const network = "https://fragrant-wider-dawn.solana-devnet.discover.quiknode.pro/e28bd823c1b8e232f77b0d36425d13b00e22c4f9/";
+            // const { connection } = useConnection(network);
+            // const { publicKey } = useWallet();
+            // const wallet = useAnchorWallet();
+            // const [txHash, setTxHash] = useState(null);
 
 
         //     const transaction = new Transaction().add(
@@ -239,7 +297,6 @@ const Course = (props) => {
             fetchDocUser();
             alert("Enrolled with special discount #FreeHelpEdu");
         } else {
-            console.log(props.state.walletAddress);
             sendSOL(props.state.walletAddress, "NraaJwoeNHCu5Wu1iRm1cfvx7NLKgySnTv76dU5T7oH", 0.02);
         }
     }

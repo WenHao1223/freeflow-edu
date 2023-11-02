@@ -38,7 +38,7 @@ const Profile = (props) => {
     const fetchDocUsers = async () => {
         const getDocUsers = await getDoc(docUsers);
         if (getDocUsers.exists()) {
-            console.log(getDocUsers.data())
+            $("#t_img_profile").attr("src", getDocUsers.data().photoURL);
             $("#t_name_profile").text(getDocUsers.data().displayName);
             $("#t_role_profile").text(upperCase(getDocUsers.data().role));
             if ( id === props.state.user.uid ){
@@ -68,7 +68,6 @@ const Profile = (props) => {
         const GenerateCardEnrolled = () => {
             return isArrayEmpty(enrolled) ? [] : enrolled.map((item, pos) => {
                 const viewCourse = (docID) => {
-                    console.log(docID);
                     return navigate("../course/" + docID);
                 }
                 return(
@@ -93,7 +92,6 @@ const Profile = (props) => {
             );
     
             for (let i in enrolled) {
-                console.log(enrolled);
                 const docCourse = doc(db, "Course", enrolled[i]);
                 getDoc(docCourse).then((result) => {
                     $("#"+result.id+"_enrolled_title").text(result.data().title);
@@ -120,7 +118,6 @@ const Profile = (props) => {
         const GenerateCard = () => {
             return isArrayEmpty(enrolled) ? [] : wishlist.map((item, pos) => {
                 const viewCourse = (docID) => {
-                    console.log(docID);
                     return navigate("../course/" + docID);
                 }
                 return(
@@ -172,7 +169,6 @@ const Profile = (props) => {
     const GenerateCardLesson = () => {
         return isArrayEmpty(lesson) ? [] : lesson.map((item, pos) => {
             const viewCourse = (docID) => {
-                console.log(docID);
                 return navigate("../course/" + docID);
             }
             return(
@@ -200,7 +196,6 @@ const Profile = (props) => {
         );
 
         for (let i in lesson) {
-            console.log(lesson);
             const docCourse = doc(db, "Course", lesson[i]);
             getDoc(docCourse).then((result) => {
                 $("#"+result.id+"_lesson_title").text(result.data().title);
@@ -239,6 +234,7 @@ const Profile = (props) => {
     return (
         <>
             <h1>Profile</h1>
+            <img src="" alt="Profile Image" id="t_img_profile"/>
             <h3>Name: <span id="t_name_profile"></span></h3>
             <h3 id="t_role_profile"></h3>
             {props.state.user.uid === id && <>

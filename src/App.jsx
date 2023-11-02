@@ -50,7 +50,8 @@ class App extends Component {
         this.state = {
             user: null || JSON.parse(localStorage.getItem("user")),
             walletAddress: null,
-            role: null
+            role: null,
+            walletResponse: null
         };
     }
     
@@ -76,8 +77,6 @@ class App extends Component {
         this.setState({
             role: data
         });
-
-        console.log(this.state);
     }
 
     checkIfWalletIsConnected = async () => {
@@ -86,7 +85,10 @@ class App extends Component {
             const response = await window.solana.connect({ onlyIfTrusted: true });
             console.log('Connected with Public Key:', response.publicKey.toString());
 
-            this.setState({walletAddress: response.publicKey.toString()});
+            this.setState({
+                walletAddress: response.publicKey.toString(),
+                walletResponse: response
+            });
             const docUser = doc(db, "Users", this.state.user.uid);
             await updateDoc(docUser, {
                 walletAddress: response.publicKey.toString()
@@ -109,7 +111,10 @@ class App extends Component {
                 alert("Fail to connect Wallet. Have you login to your Phantom wallet?");
             });
             console.log('Connected with Public Key:', response.publicKey.toString());
-            this.setState({walletAddress: response.publicKey.toString()});
+            this.setState({
+                walletAddress: response.publicKey.toString(),
+                walletResponse: response
+            });
             const docUser = doc(db, "Users", this.state.user.uid);
             await updateDoc(docUser, {
                 walletAddress: response.publicKey.toString()
@@ -139,7 +144,6 @@ class App extends Component {
     );
 
     render() {
-        console.log(this.state);
         if (!(this.state.user || JSON.parse(localStorage.getItem("user")))){
             // alert("Session has expired. Login again.");
             console.log("Session has expired. Login again.")
