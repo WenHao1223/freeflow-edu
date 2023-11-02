@@ -232,50 +232,9 @@ const Course = (props) => {
                 let transcationHash = await connection.sendTransaction(transaction, [senderWallet, receiverWallet,]);
                 console.log(transcationHash);
 
-                // let transactionHash = await connection.sendTransaction(transaction, [senderWallet, receiverWallet]);
-                // console.log("checkpoint5");
-                // console.log(transactionHash);
+                alert("Transaction successfully.")
             }
             startTranscation();
-            // const sender = new PublicKey(senderAddress);
-            // const receiver = new PublicKey(recipentAddress);
-            // const recentBlockhash = await connection.getRecentBlockhash();
-            
-            // const provider = getProvider();
-            // const network = "https://fragrant-wider-dawn.solana-devnet.discover.quiknode.pro/e28bd823c1b8e232f77b0d36425d13b00e22c4f9/";
-            // const { connection } = useConnection(network);
-            // const { publicKey } = useWallet();
-            // const wallet = useAnchorWallet();
-            // const [txHash, setTxHash] = useState(null);
-
-
-        //     const transaction = new Transaction().add(
-        //         SystemProgram.transfer({
-        //             fromPubkey: sender,
-        //             toPubkey: receiver,
-        //             lamports: amount * 10 ** 9
-        //         })
-        //     );
-        //     transaction.recentBlockhash = recentBlockhash.blockhash;
-
-        //     if(!wallet) {
-        //         alert("Wallet not connected");
-        //         return;
-        //     }
-
-        //     transaction.feePayer = sender;
-        //     const signature = await wallet.signTransaction(transaction);
-        //     const txHash = await connection.sendRawTransaction(signature.serialize());
-        //     await connection.confirmTransaction(txHash);
-
-        //     setTxHash(txHash);
-        //     alert("Transaction successful. Transaction hash: ", txHash);
-
-        // } catch { (error) => {
-        //     console.error("Error sending SOL: ", error);
-        //     alert("Transaction failed. Error in sending SOL to recipent.")
-        // }}
-
     }
 
     const toTutorProfile = () => {
