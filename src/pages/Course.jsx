@@ -45,6 +45,7 @@ const Course = (props) => {
     const [tutorID, setTutorID] = useState(null);
     const [solPrice, setSolPrice] = useState(null);
     const [recipentAdd, setRecipentAdd] = useState(null);
+    console.log(props.state.walletResponse);
 
     useEffect(() => {
         initTE({ Ripple });
