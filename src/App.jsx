@@ -21,6 +21,7 @@ import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Course from './pages/Course';
 import Upload from './pages/Upload';
+import Subscription from './pages/Subscription';
 import SignOut from './pages/SignOut';
 import Error from './pages/Error';
 
@@ -172,6 +173,7 @@ class App extends Component {
                             {/* SwCgPZXZQN32PHS7wfOI, 34UHqGokBnRqsJGsNILh */}
                             <Route path="course/:url" element={<Course state={this.state}/>}/>
                             <Route path="upload" element={<Upload state={this.state}/>}/>
+                            <Route path="subscription" element={<Subscription/>}/>
                             <Route path="first-time-user" element={<FirstTimeUser state={this.state}/>}/>
                             <Route path="*" element={<Error/>}/>
                         </Route>
