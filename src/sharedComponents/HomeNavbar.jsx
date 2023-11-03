@@ -62,6 +62,7 @@ const HomeNavbar = (props) => {
                 <NavLink to={'/freeflow-edu/profile/'+props.state.user.uid} className={ ({isActive}) => isActive ? 'link active' : 'link'}>Profile</NavLink>
                 {/* <NavLink to='/freeflow-edu/course' className={ ({isActive}) => isActive ? 'link active' : 'link'}>Course</NavLink> */}
                 <NavLink style={{display: "none"}} to='/freeflow-edu/upload' className={ ({isActive}) => isActive ? 'link active' : 'link'} id="uploadLink">Upload</NavLink>
+                <NavLink to='/freeflow-edu/subscription' className={ ({isActive}) => isActive ? 'link active' : 'link'}>Subscription</NavLink>
                 <NavLink to='/freeflow-edu/sign-out' className={ ({isActive}) => isActive ? 'link active' : 'link'}>Sign Out</NavLink>
 
                 <Link to="/freeflow-edu/profile">
