@@ -13,13 +13,12 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 
 // solana
 import SOLtoUSD from "./SOLtoUSD";
+import { Connection, Keypair, LAMPORTS_PER_SOL, PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 // import { useConnection, useWallet, useAnchorWallet } from '@solana/wallet-adapter-react';
-// import { PublicKey, Transaction, SystemProgram } from '@solana/web3.js';
 
 import { Buffer } from "buffer";
 window.Buffer = Buffer;
 
-import { Connection, Keypair, LAMPORTS_PER_SOL, SystemProgram, Transaction, sendAndConfirmTransaction } from "@solana/web3.js";
 import bs58 from "bs58";
 const connection = new Connection("https://api.devnet.solana.com");
 
@@ -44,6 +43,8 @@ const Course = (props) => {
 
     const [enrolled, setEnrolled] = useState(false);
     const [tutorID, setTutorID] = useState(null);
+    const [solPrice, setSolPrice] = useState(null);
+    const [recipentAdd, setRecipentAdd] = useState(null);
 
     useEffect(() => {
         initTE({ Ripple });
@@ -70,6 +71,7 @@ const Course = (props) => {
             $("#card_level").text(upperCase(getDocRef.data().eduLvl));
             $("#card_lang").text(upperCase(getDocRef.data().lang));
             $("#card_sol").text(getDocRef.data().sol);
+            setSolPrice(getDocRef.data().sol);
             $("#card_uploadTime").text(new Date(getDocRef.data().uploadTime.seconds*1000).toLocaleString());
             if (getDocRef.data().mode === "both") {
                 $("#card_mode").text("Video and notes");
@@ -98,6 +100,7 @@ const Course = (props) => {
                 if (getDocTutor.exists()) {
                     const root = createRoot(document.getElementById("card_tutor"));
                     $("#card_tutor").text(getDocTutor.data().displayName);
+                    setRecipentAdd(getDocTutor.data().walletAddress);
                 } else {
                     console.log("No such document for Users with UID of", getDocTutor.data().userUID);
                 }
@@ -189,52 +192,68 @@ const Course = (props) => {
             return;
         }
         
-        // try {
             const senderWallet = Keypair.fromSecretKey(
-                bs58.decode("5jfYsRoTwHAqpC1k8cB4iFd8zE7d1sduQoWYhBaUDSw9ydMMYerpMWfDCno5Bs7eatbokHE3KTRNZnDtzomGVsuf")
-            );
-            const receiverWallet = Keypair.fromSecretKey(
                 bs58.decode("2EhyfeJPRDYCdQFvZwc5ZUiMRASqhPt17N8a55WoZnnZ8B6d6G5ih87g4q8Li6wreZGcUEXWAoG9nxRTMbpenEXm")
             );
 
-            console.log("checkpoint1");
+            // const senderPublicKey = new PublicKey("NraaJwoeNHCu5Wu1iRm1cfvx7NLKgySnTv76dU5T7oH");
+            const receiverPublicKey = new PublicKey(recipentAddress);
 
             const getBalance = async () => {
                 let senderBalance = await connection.getBalance(senderWallet.publicKey);
-                let receiverBalance = await connection.getBalance(receiverWallet.publicKey);
+                let receiverBalance = await connection.getBalance(receiverPublicKey);
                 console.log(
                     `Sender Balance: ${senderBalance / LAMPORTS_PER_SOL} SOL`
                 );
                 console.log(
                     `Receiver Balance: ${receiverBalance / LAMPORTS_PER_SOL} SOL`
                 );
-                console.log("checkpoint2");
             };
             getBalance();
 
+            const generateToken = async () => {
+                let txHash = await connection.requestAirdrop(senderWallet.publicKey, 1e9);
+                console.log(`txHash: ${txHash}`);
+            }
+            // generateToken();
+
             const startTranscation = async () => {
                 let senderBalance = await connection.getBalance(senderWallet.publicKey);
-                let receiverBalance = await connection.getBalance(receiverWallet.publicKey);
 
-                let transaction = new Transaction().add(
-                    SystemProgram.transfer({
-                        fromPubkey: senderWallet.publicKey,
-                        toPubkey: receiverWallet.publicKey,
-                        lamports: 0.02 * LAMPORTS_PER_SOL
-                    })
-                );
-                console.log("checkpoint3");
-
-                transaction.feePayer = senderWallet.publicKey;
-                console.log("checkpoint4");
-                console.log(connection, transaction, senderWallet, receiverWallet);
-
-                let transcationHash = await connection.sendTransaction(transaction, [senderWallet, receiverWallet,]);
-                console.log(transcationHash);
-
-                alert("Transaction successfully.")
+                if ((senderBalance / LAMPORTS_PER_SOL) > solPrice) {
+                    let transaction = new Transaction().add(
+                        SystemProgram.transfer({
+                            fromPubkey: senderWallet.publicKey,
+                            toPubkey: receiverPublicKey,
+                            lamports: amount * LAMPORTS_PER_SOL
+                        })
+                    );
+                    
+                    transaction.recentBlockhash = (await connection.getRecentBlockhash()).blockhash;
+                    transaction.feePayer = senderWallet.publicKey;
+                    transaction.partialSign(senderWallet);
+    
+                    let transactionHash = await connection.sendTransaction(transaction, [senderWallet]);
+                    console.log(transactionHash);
+                    
+                    const docUser = doc(db, "Users", props.state.user.uid);
+                    const fetchDocUser = async () => {
+                        await updateDoc(docUser, {
+                            enrolled: arrayUnion(url)
+                        });
+                        $("#b_enroll").text("ENROLLED");
+                        $("#b_enroll").attr("disabled", true);
+                        setEnrolled(true);
+                    }
+                    fetchDocUser();
+                    alert("Transaction successfully.");
+                } else {
+                    alert("Transaction failed. Not enough SOL tokens to pay.");
+                    return;
+                }
             }
             startTranscation();
+
     }
 
     const toTutorProfile = () => {
@@ -243,7 +262,6 @@ const Course = (props) => {
 
     const enroll = () => {
         if (props.state.role === "special needy / refugee / disabilities") {
-            console.log("Enrolling");
             const docUser = doc(db, "Users", props.state.user.uid);
             const fetchDocUser = async () => {
                 await updateDoc(docUser, {
@@ -256,7 +274,9 @@ const Course = (props) => {
             fetchDocUser();
             alert("Enrolled with special discount #FreeHelpEdu");
         } else {
-            sendSOL(props.state.walletAddress, "NraaJwoeNHCu5Wu1iRm1cfvx7NLKgySnTv76dU5T7oH", 0.02);
+            if (confirm(`Are you sure you want to proceeed by paying a transcation fee of ${solPrice} SOL?`)) {
+                sendSOL(props.state.walletAddress, recipentAdd, solPrice);
+            }
         }
     }
 
