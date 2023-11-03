@@ -51,7 +51,7 @@ const Subscription = () => {
                               <strong>$ 300</strong>
                               <small className="text-base text-neutral-500 dark:text-neutral-300">/month</small>
                             </h3>
-                            <button type="button" className="inline-block w-full rounded bg-[hsl(0,0%,95%)] px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-[hsl(0,0%,93%)] focus:bg-[hsl(0,0%,95%)] focus:outline-none focus:ring-0 active:bg-[hsl(0,0%,90%)]" data-te-ripple-init data-te-ripple-color="light"> Buy
+                            <button type="button" className="inline-block w-full rounded bg-[hsl(0,0%,95%)] px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-[hsl(0,0%,93%)] focus:bg-[hsl(0,0%,95%)] focus:outline-none focus:ring-0 active:bg-[hsl(0,0%,90%)] hover:text-white hover:bg-black" data-te-ripple-init data-te-ripple-color="light"> Buy
                             </button>
                           </div>
                           <div className="p-6">
@@ -94,7 +94,7 @@ const Subscription = () => {
                             <button type="button" className="inline-block w-full rounded bg-[hsl(0,0%,95%)] px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white transition duration-150 ease-in-out hover:bg-[hsl(0,0%,93%)] focus:bg-[hsl(0,0%,95%)] focus:outline-none focus:ring-0 active:bg-[hsl(0,0%,90%)] bg-neutral-950 hover:text-black" data-te-ripple-init data-te-ripple-color="light"> Buy
                             </button>
                           </div>
-                          <div className="p-6 dark:bg-orange-500">
+                          <div className="p-6 dark:bg-orange-500 rounded-lg">
                             <ol className="list-inside">
                               <li className="mb-4 flex dark:text-black">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="black" className="mr-3 h-5 w-5 text-primary dark:text-primary-400">
