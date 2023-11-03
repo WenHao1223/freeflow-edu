@@ -71,7 +71,7 @@ const Course = (props) => {
             $("#card_sub").text(upperCase(getDocRef.data().sub));
             $("#card_level").text(upperCase(getDocRef.data().eduLvl));
             $("#card_lang").text(upperCase(getDocRef.data().lang));
-            $("#card_sol").text(getDocRef.data().sol);
+            $("#card_sol").text((getDocRef.data().sol * 1.05).toFixed(2));
             setSolPrice(getDocRef.data().sol);
             $("#card_uploadTime").text(new Date(getDocRef.data().uploadTime.seconds*1000).toLocaleString());
             if (getDocRef.data().mode === "both") {
@@ -221,7 +221,7 @@ const Course = (props) => {
             const startTranscation = async () => {
                 let senderBalance = await connection.getBalance(senderWallet.publicKey);
 
-                if ((senderBalance / LAMPORTS_PER_SOL) > solPrice) {
+                if ((senderBalance / LAMPORTS_PER_SOL) > (solPrice * 1.05).toFixed(2)) {
                     let transaction = new Transaction().add(
                         SystemProgram.transfer({
                             fromPubkey: senderWallet.publicKey,
@@ -235,7 +235,22 @@ const Course = (props) => {
                     transaction.partialSign(senderWallet);
     
                     let transactionHash = await connection.sendTransaction(transaction, [senderWallet]);
-                    console.log(transactionHash);
+                    console.log("Transaction hash to teacher:", transactionHash, amount);
+
+                    let transaction2 = new Transaction().add(
+                        SystemProgram.transfer({
+                            fromPubkey: senderWallet.publicKey,
+                            toPubkey: "5VHWzF3jFnc9WK7MijhcHT7QDRZ1Zt1W6Pvf6wrTsdQh",
+                            lamports: parseInt((amount * 0.05).toFixed(2) * LAMPORTS_PER_SOL)
+                        })
+                    );
+                    
+                    transaction2.recentBlockhash = (await connection.getRecentBlockhash()).blockhash;
+                    transaction2.feePayer = senderWallet.publicKey;
+                    transaction2.partialSign(senderWallet);
+    
+                    let transactionHash2 = await connection.sendTransaction(transaction2, [senderWallet]);
+                    console.log("Commission hash:", transactionHash2, (amount * 0.05).toFixed(2));
                     
                     const docUser = doc(db, "Users", props.state.user.uid);
                     const fetchDocUser = async () => {
@@ -247,7 +262,7 @@ const Course = (props) => {
                         setEnrolled(true);
                     }
                     fetchDocUser();
-                    alert("Transaction successfully.");
+                    alert("Commission of 5% paid successfully.");
                 } else {
                     alert("Transaction failed. Not enough SOL tokens to pay.");
                     return;
@@ -275,7 +290,7 @@ const Course = (props) => {
             fetchDocUser();
             alert("Enrolled with special discount #FreeHelpEdu");
         } else {
-            if (confirm(`Are you sure you want to proceeed by paying a transcation fee of ${solPrice} SOL?`)) {
+            if (confirm(`Are you sure you want to proceeed by paying a transcation fee of ${(solPrice * 1.05).toFixed(2)} SOL? \n\n 5% of commission fee is applied for web maintainence.`)) {
                 sendSOL(props.state.walletAddress, recipentAdd, solPrice);
             }
         }
