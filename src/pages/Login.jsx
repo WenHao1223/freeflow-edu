@@ -138,8 +138,7 @@ class Login extends Component {
                     <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
                         <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
                             <div className="mt-12 flex flex-col items-center">
-                                <h1 className="text-2xl xl:text-3xl font-extrabold">Login
-                                </h1>
+                                <h1 className="text-2xl xl:text-3xl font-extrabold">Login</h1>
                                 <div className="w-full flex-1 mt-8">
                                     <div className="flex flex-col items-center">
                                         <button onClick={this.signUpGoogle} className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
@@ -163,23 +162,23 @@ class Login extends Component {
                                     </div>
 
                                     <div className="mx-auto max-w-xs">
-                        <input onKeyUp={this.handleKeyPress} className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white" type="email" placeholder="Email" id="t_email" />
-                        <input onKeyUp={this.handleKeyPress} className="w-full px-8 py-4 mb-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5" type="password" placeholder="Password" id="t_password" />
-                        <label className="w-full py-4">
-                            <input type="checkbox" name="" id="c_rmb_me"/> &nbsp;Remember me
-                        </label>
-                        <button onClick={this.bLogin} className="mt-5  tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
-                            <svg className="w-6 h-6 -ml-2" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                                <circle cx="8.5" cy="7" r="4" />
-                                <path d="M20 8v6M23 11h-6" />
-                            </svg>
-                            <span className="ml-3">Login
-                            </span>
-                        </button>      
-                        <Link className="mb-2 mt-2 block" to="register">Haven't registered?</Link>
-                        <Link onClick={this.guest}>Login as Guest</Link>
-                    </div>
+                                        <input onKeyUp={this.handleKeyPress} className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white" type="email" placeholder="Email" id="t_email" />
+                                        <input onKeyUp={this.handleKeyPress} className="w-full px-8 py-4 mb-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5" type="password" placeholder="Password" id="t_password" />
+                                        <label className="w-full py-4">
+                                            <input type="checkbox" name="" id="c_rmb_me"/> &nbsp;Remember me
+                                        </label>
+                                        <button onClick={this.bLogin} className="mt-5  tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
+                                            <svg className="w-6 h-6 -ml-2" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                                                <circle cx="8.5" cy="7" r="4" />
+                                                <path d="M20 8v6M23 11h-6" />
+                                            </svg>
+                                            <span className="ml-3">Login
+                                            </span>
+                                        </button>      
+                                        <Link className="mb-2 mt-2 block" to="register">Haven't registered?</Link>
+                                        <Link onClick={this.guest}>Login as Guest</Link>
+                                    </div>
                                 </div>
                             </div>
                         </div>
