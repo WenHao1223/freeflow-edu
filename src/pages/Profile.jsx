@@ -34,7 +34,6 @@ const Profile = (props) => {
     const [lesson, setLesson] = useState(null);
     const [profileRole, setProfileRole] = useState(null);
 
-    console.log("profile id", id);
     const docUsers = doc(db, "Users", id);
     const fetchDocUsers = async () => {
         const getDocUsers = await getDoc(docUsers);
@@ -61,9 +60,11 @@ const Profile = (props) => {
             console.log("No such document for users with uid", props.state.user.uid);
         }
     }
+    
+    console.log("profile id", id);
+
     fetchDocUsers();
-
-
+    3
 
     
     if (props.state.user.uid === id){
@@ -232,7 +233,7 @@ const Profile = (props) => {
             fetchQDocs();
         }
     }, [profileRole]);
-    
+
     return (
         <>
             <h1>Profile</h1>
