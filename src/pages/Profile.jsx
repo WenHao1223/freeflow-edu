@@ -34,6 +34,7 @@ const Profile = (props) => {
     const [lesson, setLesson] = useState(null);
     const [profileRole, setProfileRole] = useState(null);
 
+    console.log("profile id", id);
     const docUsers = doc(db, "Users", id);
     const fetchDocUsers = async () => {
         const getDocUsers = await getDoc(docUsers);
@@ -61,6 +62,7 @@ const Profile = (props) => {
         }
     }
     fetchDocUsers();
+
 
 
     
