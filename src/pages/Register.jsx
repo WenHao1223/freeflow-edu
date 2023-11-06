@@ -114,58 +114,6 @@ class Register extends Component {
         }
     }
 
-//     signUpFB = (props) => {
-//     const auth = getAuth();
-//     const provider = new FacebookAuthProvider();
-//     provider.addScope("email");
-
-//     if(document.getElementById("c_privacy").checked){
-//         const auth = getAuth();
-//         signInWithPopup(auth, provider)
-//             .then((result) => {
-//                 const credential = FacebookAuthProvider.credentialFromResult(result);
-//                 const accessToken = credential.accessToken;
-//                 const user = result.user;
-//                 const email = result.user.email;
-            
-//                 console.log(credential);
-//                 console.log(token);
-//                 console.log(user);
-//                 console.log(email);
-//             })
-//             .catch((error) => {
-//                 const errorCode = error.code;
-//                 const errorMessage = error.message;
-//                 console.log({errorCode, errorMessage});
-//         });
-//     } else {+
-//         alert("Please agree to the Privacy Policy, and Terms and Conditions of FreeFlow Edu app.");
-//     }
-// };
-    
-//     otp = () => {
-//         if($("#t_email").val() != ""){
-//             if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test($("#t_email").val())){
-//                 $("#t_email").attr("disabled", true);
-//                 $("#b_request").attr("disabled", true);
-//                 let sec = 10;
-//                 const otpCount = setInterval(() => {
-//                     $("#b_request").text(--sec + " secs...");
-//                     if (sec == 0) {
-//                         $("#b_request").attr("disabled", false);
-//                     $("#b_request").text("Resend OTP");
-//                         clearInterval(otpCount);
-//                     }
-//                 }, 1000)
-//             } else {
-//                 alert("Email not valid.");
-//             }
-//         } else {
-//             alert("Please fill in email.")
-//         }
-//     }
-    
-
     render() {
         if(this.state.user){
             console.log("loged in");
