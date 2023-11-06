@@ -65,7 +65,7 @@ const HomeNavbar = (props) => {
                 <NavLink to='/freeflow-edu/subscription' className={ ({isActive}) => isActive ? 'link active' : 'link'}>Subscription</NavLink>
                 <NavLink to='/freeflow-edu/sign-out' className={ ({isActive}) => isActive ? 'link active' : 'link'}>Sign Out</NavLink>
 
-                <Link to="/freeflow-edu/profile">
+                <Link to={'/freeflow-edu/profile/'+props.state.user.uid}>
                     <img src={props.state.user.photoURL} alt="Profile Img"/>
                     <p>{props.state.user.displayName}</p>
                     <p>{props.state.user.email}</p>

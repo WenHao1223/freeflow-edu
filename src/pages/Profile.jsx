@@ -60,8 +60,11 @@ const Profile = (props) => {
             console.log("No such document for users with uid", props.state.user.uid);
         }
     }
-    fetchDocUsers();
+    
+    console.log("profile id", id);
 
+    fetchDocUsers();
+    3
 
     
     if (props.state.user.uid === id){
@@ -230,7 +233,7 @@ const Profile = (props) => {
             fetchQDocs();
         }
     }, [profileRole]);
-    
+
     return (
         <>
             <h1>Profile</h1>
