@@ -35,7 +35,7 @@ class SignOut extends Component {
         console.log(this.state);
         if(this.state){
             return (
-                <div className="m-12 flex items-center justify-center">
+                <div className="m-12 mt-4 flex items-center justify-center">
                     <div className="p-4 sm:p-10 bg-gray-50 rounded-md  w-[300px] md:w-[500px] text-center overflow-y-auto">
                         <span className="mb-4 inline-flex justify-center items-center w-[62px] h-[62px] rounded-full border-4 border-yellow-50 bg-yellow-100 text-yellow-500">
                             <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
