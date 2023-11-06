@@ -58,15 +58,6 @@ const Home = (props) => {
                     return navigate("course/" + docID);
                 }
                 return(
-                    // <div key={pos} className="max-w-[80vw] bg-white bg-opacity-50 flex items-center h-full dark:bg-neutral-700">
-                    //     <img className="aspect-[4/3] h-24 w-96 rounded-lg object-cover md:h-auto" src="" alt="Course Thumbnail" id={item+"_card_thumbnail"}/>
-                    //     <div className="flex flex-col justify-start p-6"><h5 className="mb-2 text-xl font-medium text-neutral-800 dark:text-neutral-50" id={item+"_title"}></h5>
-                    //         <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200" id={item+"_des"}></p>
-                    //         <p className="mb-4 text-sm text-neutral-400 dark:text-neutral-300"><span id={item+"_eduLvl"}></span> <span id={item+"_sub"}></span></p>
-                    //         <div className="gap-4" id={item+"_tag"}></div>
-                    //         <button type="button" className="flex items-center mt-4 px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500" onClick={() => viewCourse(item)}>View Course</button>
-                    //     </div>
-                    // </div>
                     <main class="my-8">
                         <div key={pos} className="w-full h-96 md:mx-4 rounded-md overflow-hidden bg-cover bg-center md:w-1/2" style={{backgroundImage: "url('https://images.unsplash.com/photo-1547949003-9792a18a2601?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80')"}} alt="Course Thumbnail" id={item+"_card_thumbnail"}>
                             <div className="bg-gray-900 bg-opacity-70 flex items-center h-full dark:bg-opacity-50">
@@ -74,7 +65,7 @@ const Home = (props) => {
                                         <p className="mb-4 text-sm text-yellow-500 dark:text-neutral-500 dark:text-yellow-500"><span id={item+"_eduLvl"}></span> <span id={item+"_sub"}></span></p>
                                     <h2 className="text-2xl text-white font-semibold" id={item+"_title"}></h2>
                                         <p className="mt-2 mb-3 text-gray-300 text-sm [text-shadow:_0_1px_0_rgb(0_0_0_/_30%)]" id={item+"_des"}></p>
-                                         <div className="gap-4" id={item+"_tag"}></div>
+                                        <div className="gap-4" id={item+"_tag"}></div>
                                         <button className="flex items-center mt-4 text-white bg-transparent text-sm uppercase font-medium rounded hover:underline focus:outline-none" onClick={() => viewCourse(item)}>
                                             <span>View Course</span>
                                             <svg className="h-5 w-5 mx-2" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>

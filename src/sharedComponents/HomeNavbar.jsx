@@ -95,7 +95,7 @@ const HomeNavbar = (props) => {
                         </ul>
                     </div>
 
-                    <div className="relative flex items-center justify-center md:w-full">
+                    <div className="relative flex items-center justify-center">
                         <div className="button relative ms-4 me-4 rounded bg-[#84948C] px-6 pt-3 pb-3.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-[#6A7770] hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-[#515B55] focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-[] active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]" to={'/freeflow-edu/profile/'+props.state.user.uid}>
                             <Link className="hidden-arrow flex items-center whitespace-nowrap transition duration-150 ease-in-out motion-reduce:transition-none flex items-center justify-center" id="dropdownMenuButton2" role="button" data-te-toggle="tooltip" title={props.state.user.displayName+"\n"+props.state.user.email} to={'/freeflow-edu/profile/'+props.state.user.uid}>
                                 <img src={props.state.user.photoURL} className="rounded-full" style={{height: "25px", width: "25px"}} alt="Profile Img" loading="lazy" />
