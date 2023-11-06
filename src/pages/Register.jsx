@@ -140,8 +140,7 @@ class Register extends Component {
                                                     <path d="M272.1 107.7c38.8-.6 76.3 14 104.4 40.8l77.7-77.7C405 24.6 339.7-.8 272.1 0 169.2 0 75.1 58 28.9 150l90.4 70.1c21.5-64.5 81.8-112.4 152.8-112.4z" fill="#ea4335" />
                                                 </svg>
                                             </div>
-                                            <span className="ml-4"> Sign up with G+
-                                            </span>
+                                            <span className="ml-4"> Sign up with G+</span>
                                         </button>
 
                                     </div>
@@ -171,8 +170,7 @@ class Register extends Component {
                                                 <circle cx="8.5" cy="7" r="4" />
                                                 <path d="M20 8v6M23 11h-6" />
                                             </svg>
-                                                <span className="ml-3 ">Register
-                                                </span>
+                                                <span className="ml-3 ">Register</span>
                                         </button>      
                                                 <Link className="mb-2 mt-2 block" to="../">Already login?</Link>
                                     </div>
