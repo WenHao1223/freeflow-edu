@@ -8,7 +8,10 @@ export default {
   theme: {
     extend: {},
   },
-  plugins: [require("tw-elements/dist/plugin.cjs")],
+  plugins: [
+    require("tw-elements/dist/plugin.cjs"),
+    require('@tailwindcss/forms'),
+  ],
   // darkMode: "class"
 }
 
