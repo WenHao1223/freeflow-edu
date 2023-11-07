@@ -224,7 +224,7 @@ const Profile = (props) => {
 
     useEffect(() => {
         if(profileRole === "teacher") {
-            const q = query(collection(db, "Course"), where("userUID", "==", "TaTnr1b52dY46GbLtOF2XtdKShm1"));
+            const q = query(collection(db, "Course"), where("userUID", "==", id));
             const fetchQDocs = async () => {
                 const querySnapshot = await getDocs(q);
                 setLesson(querySnapshot.docs.map(doc => doc.id))
