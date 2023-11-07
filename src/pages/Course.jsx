@@ -130,7 +130,9 @@ const Course = (props) => {
                             $("#b_enroll").attr("disabled", true);
                             setEnrolled(true);
                         } else {
-                            $("#b_enroll").text("ENROLL NOW");
+                            if (getDocRef.data().userUID === props.state.user.uid){
+                                $("#b_enroll").text("TEACHER");
+                            }
                         }
                     }
                 } else {
@@ -138,6 +140,12 @@ const Course = (props) => {
                 }
             }
             fetchDocUser();
+
+            if (getDocRef.data().userUID === props.state.user.uid){
+                $("#b_enroll").text("TEACHER");
+                $("#b_enroll").attr("disabled", true);
+                setEnrolled(true);
+            }
 
         } else {
             console.log("No such document for Course with link", url);
