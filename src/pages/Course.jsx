@@ -84,7 +84,7 @@ const Course = (props) => {
             const generateTag = () => {
                 let tagHTML = "";
                 for (let i in getDocRef.data().tag) {
-                    tagHTML += `<span class="me-2 inline-block whitespace-nowrap rounded-[0.27rem] bg-info-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none bg-secondary-600">${getDocRef.data().tag[i]}</span>`;
+                    tagHTML += `<span class="me-1 mb-1 inline-block whitespace-nowrap rounded-[0.27rem] text-secondary-50 bg-info-100 px-[1em] pb-[0.5em] pt-[0.6em] text-center align-baseline text-[0.75em] font-bold leading-none bg-secondary-600 text-xs">${getDocRef.data().tag[i]}</span>`;
                 }
                 $("#card_tag").html(tagHTML);
             }
@@ -300,24 +300,24 @@ const Course = (props) => {
         if(enrolled) {
             const videoRef = ref(storage, url+"/video.mp4");
             getDownloadURL(videoRef).then((videoURL) => {
-                $("#media_area").html($("#media_area").html()+`<h1>Video</h1><video width="100%" height="100%" controls><source src="${videoURL}" type="video/mp4">Your browser does not support the video tag.</video>`);
+                $("#media_area").html($("#media_area").html()+`<h1 class="text-4xl font-bold m-4">Video</h1><video width="100%" height="100%" controls><source src="${videoURL}" type="video/mp4">Your browser does not support the video tag.</video>`);
             });
 
             const notesRef = ref(storage, url+"/notes.pdf");
             getDownloadURL(notesRef).then((notesURL) => {
-                $("#media_area").html($("#media_area").html()+`<h1>Notes</h1><object data="https://media.geeksforgeeks.org/wp-content/cdn-uploads/20210101201653/PDF.pdf" width="100%" height="800"></object>`);
+                $("#media_area").html($("#media_area").html()+`<h1 class="text-4xl font-bold m-4">Notes</h1><object data="https://media.geeksforgeeks.org/wp-content/cdn-uploads/20210101201653/PDF.pdf" width="100%" height="800"></object>`);
             });
         }
     }, [enrolled]);
 
     return(
         <>
-            <h1 className="mb-4">Course</h1>
+            <h1 className="text-4xl font-bold mb-4">Course</h1>
 
-            <div className="flex flex-col rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700 max-w-lg md:flex-row">
+            <div className="flex flex-col rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700 max-w-8xl md:flex-row">
                 <img className="w-1/2 rounded-t-lg object-cover md:!rounded-none md:!rounded-l-lg" src="" alt="Course thumbnail" id="card_img"/>
                 <div className="flex flex-col justify-start max-w-3xl p-6">
-                    <h5 className="mb-2 text-xl font-medium text-neutral-800 dark:text-neutral-50" id="card_title"></h5>
+                    <h5 className="mb-2 text-3xl font-semibold text-neutral-800 dark:text-neutral-50" id="card_title"></h5>
                     <p className="mb-4 text-sm text-warning-600 dark:text-warning-400">* <span id="card_mode"></span> included.</p>
                     <p className="mb-2 text-base text-neutral-600 dark:text-neutral-200" id="card_des"></p>
                     <div className="mb-4 gap-4" id="card_tag"></div>
