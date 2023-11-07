@@ -1,7 +1,6 @@
 const Subscription = () => {
     return(
         <>
-            <h1>Subscription</h1>
             <div className="container my-24 mx-auto md:px-6">
               <section className="mb-32">
                 <h1 className="mb-12 text-center text-3xl font-bold">Choose your learning plan and join our global community</h1>

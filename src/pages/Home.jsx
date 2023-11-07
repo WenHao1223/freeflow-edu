@@ -123,7 +123,6 @@ const Home = (props) => {
 
     return(
         <>
-            <h1>Home</h1>
             <h3 className="text-3xl bold py-5">Recommended Course</h3>
             <div id="div_recommended"></div>
         </>
