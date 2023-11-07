@@ -115,7 +115,7 @@ class FirstTimeUser extends Component {
         const questionCards = isArrayEmpty(this.data) ? [] : this.data.map((item, pos) => {
             const optionButtons = isArrayEmpty(item.options) ? [] : item.options.map((option, posItem) => {
                 if(item.options.length < 10){
-                    return <button className="w-[80vw] max-w-screen-xl text-3xl h-[10vh] max-h-screen-md my-12" onClick={() => this.updateState(item.answering, option)} key={option} value={option}>{option}</button>
+                    return <button className="w-[80vw] xl:text-3xl text-xl inline-block rounded-lg border-2 border-neutral-300 px-6 pb-[6px] pt-2 font-medium leading-normal text-neutral-800 transition duration-150 ease-in-out hover:border-neutral-800 hover:bg-neutral-500 hover:bg-opacity-30 hover:text-neutral-800 focus:border-neutral-800 focus:text-neutral-800 focus:outline-none focus:ring-0 active:border-neutral-900 active:bg-neutral-500 active:text-neutral-900 dark:border-neutral-900 dark:text-neutral-900 dark:hover:border-neutral-900 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10 dark:hover:text-neutral-900 dark:focus:border-neutral-900 dark:focus:text-neutral-900 dark:active:border-neutral-900 dark:active:text-neutral-900 max-w-screen-xl text-3xl h-[10vh] max-h-screen-md my-12" onClick={() => this.updateState(item.answering, option)} key={option} value={option}>{option}</button>
                 } else{
                     return <option key={option} value={option}>{option}</option>;
                 }
@@ -124,7 +124,10 @@ class FirstTimeUser extends Component {
             return(
                 <div className="relative h-[70vh] w-full" key={item.id} style={{display: item.id === this.state.currentQuestion ? "inherit" : "none"}}>
                     <h1 className="justify-center flex text-4xl font-bold">{item.question}</h1>
-                    {item.options.length < 10 ? <div className='h-full flex items-center justify-center grid grid-rows-4'>{optionButtons}</div> : <select id="s_country" onChange={() => $("#s_country").val() !== "-- Please Select --" ? this.updateState("country", $("#s_country").val()) : alert("Please select your origin.")}>{optionButtons}</select>}
+                    {item.options.length < 10 ? <div className='h-full flex items-center justify-center grid grid-rows-6'>{optionButtons}</div> : 
+                    <div className="h-full w-full flex items-center justify-center grid grid-rows-6">
+                        <select id="s_country" onChange={() => $("#s_country").val() !== "-- Please Select --" ? this.updateState("country", $("#s_country").val()) : alert("Please select your origin.")}>{optionButtons}</select>
+                    </div>}
                 </div>
             );
         });
