@@ -175,7 +175,8 @@ const Profile = (props) => {
                 return navigate("../course/" + docID);
             }
             return(
-                <div key={pos} className="mb-4 flex flex-col rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700 md:max-w-xl md:flex-row">
+                <main className="my-8">
+                <div key={pos} className="w-full h-96 md:mx-4 rounded-md overflow-hidden bg-cover bg-center md:w-1/2" style={{backgroundImage: "url()"}} alt="Course Thumbnail" id={item+"_card_thumbnail"}>
                     <img className="h-96 w-full md:w-1/3 lg:w-1/3 xl:w-1/3 2xs:w-1/3 rounded-t-lg object-cover md:h-auto md:!rounded-none md:!rounded-l-lg" src="" alt="Course Thumbnail" id={item+"_lesson_card_thumbnail"}/>
                     <div className="flex flex-col justify-start p-6"><h5 className="mb-2 text-xl font-medium text-neutral-800 dark:text-neutral-50" id={item+"_lesson_title"}></h5>
                         <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200" id={item+"_lesson_des"}></p>
@@ -184,6 +185,7 @@ const Profile = (props) => {
                         <button type="button" className="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] mt-2 mb-2" onClick={() => viewCourse(item)}>View Course</button>
                     </div>
                 </div>
+                </main>
             );
         });
     };
@@ -236,7 +238,6 @@ const Profile = (props) => {
 
     return (
         <>
-            <h1>Profile</h1>
             <img src="" alt="Profile Image" id="t_img_profile"/>
             <h3>Name: <span id="t_name_profile"></span></h3>
             <h3 id="t_role_profile"></h3>

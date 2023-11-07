@@ -102,29 +102,29 @@ class FirstTimeUser extends Component {
 
     render() {
         console.log(this.state)
-        if(this.state.user){
-            if (this.state.user.metadata.creationTime === this.state.user.metadata.lastSignInTime) {
-                console.log("first-time user");
-            } else {
-                return <Navigate to="/freeflow-edu/"></Navigate>
-            }
-        } else {
-            return <Navigate to="/freeflow-edu/"></Navigate>
-        }
+        // if(this.state.user){
+        //     if (this.state.user.metadata.creationTime === this.state.user.metadata.lastSignInTime) {
+        //         console.log("first-time user");
+        //     } else {
+        //         return <Navigate to="/freeflow-edu/"></Navigate>
+        //     }
+        // } else {
+        //     return <Navigate to="/freeflow-edu/"></Navigate>
+        // }
 
         const questionCards = isArrayEmpty(this.data) ? [] : this.data.map((item, pos) => {
             const optionButtons = isArrayEmpty(item.options) ? [] : item.options.map((option, posItem) => {
                 if(item.options.length < 10){
-                    return <button onClick={() => this.updateState(item.answering, option)} key={option} value={option}>{option}</button>
+                    return <button className="w-[80vw] max-w-screen-xl text-3xl h-[10vh] max-h-screen-md my-12" onClick={() => this.updateState(item.answering, option)} key={option} value={option}>{option}</button>
                 } else{
                     return <option key={option} value={option}>{option}</option>;
                 }
             });
 
             return(
-                <div key={item.id} style={{display: item.id === this.state.currentQuestion ? "inherit" : "none"}}>
-                    <h3>Question {item.id}: {item.question}</h3>
-                    {item.options.length < 10 ? optionButtons : <select id="s_country" onChange={() => $("#s_country").val() !== "-- Please Select --" ? this.updateState("country", $("#s_country").val()) : alert("Please select your origin.")}>{optionButtons}</select>}
+                <div className="relative h-[70vh] w-full" key={item.id} style={{display: item.id === this.state.currentQuestion ? "inherit" : "none"}}>
+                    <h1 className="justify-center flex text-4xl font-bold">{item.question}</h1>
+                    {item.options.length < 10 ? <div className='h-full flex items-center justify-center grid grid-rows-4'>{optionButtons}</div> : <select id="s_country" onChange={() => $("#s_country").val() !== "-- Please Select --" ? this.updateState("country", $("#s_country").val()) : alert("Please select your origin.")}>{optionButtons}</select>}
                 </div>
             );
         });
@@ -137,7 +137,6 @@ class FirstTimeUser extends Component {
 
         return(
             <>
-                <h1>First Time Login Q&A</h1>
                 {questionCards}
             </>
         );
