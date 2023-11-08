@@ -195,7 +195,7 @@ const Profile = (props) => {
 
         root.render(
             <>
-                <h3 className="text-3xl bold py-5">Lessons</h3>
+                {profileRole === "teacher" && <h3 className="text-3xl bold py-5">Lessons</h3>}
                 <GenerateCardLesson/>
             </>
         );
