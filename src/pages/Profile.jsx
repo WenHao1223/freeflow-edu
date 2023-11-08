@@ -41,6 +41,8 @@ const Profile = (props) => {
             $("#t_img_profile").attr("src", getDocUsers.data().photoURL);
             $("#t_name_profile").text(getDocUsers.data().displayName);
             $("#t_role_profile").text(upperCase(getDocUsers.data().role));
+            $("#t_eduLvl_profile").text(upperCase(getDocUsers.data().eduLvl));
+            $("#t_ori_profile").text(upperCase(getDocUsers.data().country));
             if ( id === props.state.user.uid ){
                 if (getDocUsers.data().wishlist) {
                     if(!wishlist){
@@ -69,28 +71,28 @@ const Profile = (props) => {
     
     if (props.state.user.uid === id){
         const GenerateCardEnrolled = () => {
+            $("#t_noEnrolled_profile").text(enrolled.length);
             return isArrayEmpty(enrolled) ? [] : enrolled.map((item, pos) => {
                 const viewCourse = (docID) => {
                     return navigate("../course/" + docID);
                 }
                 return(
                     <main className="my-8">
-                <div key={pos} className="w-full h-96 md:mx-4 rounded-md overflow-hidden bg-cover bg-center md:w-3/4" style={{backgroundImage: "url()"}} alt="Course Thumbnail" id={item+"_enrolled_card_thumbnail"}>
-                <div className="bg-gray-900 bg-opacity-70 flex items-center h-full dark:bg-opacity-50">
-                    <div className="px-10 max-w-xl">
-                    <p className="mb-4 text-sm text-yellow-500 dark:text-neutral-500 dark:text-yellow-500"><span id={item+"_enrolled_eduLvl"}></span> <span id={item+"_enrolled_sub"}></span></p>
-                    <h2 className="text-2xl text-white font-semibold" id={item+"_enrolled_title"}></h2>
-                    <p className="mt-2 mb-3 text-gray-300 text-sm [text-shadow:_0_1px_0_rgb(0_0_0_/_30%)]" id={item+"_enrolled_des"}></p>
-                        <div className="gap-4" id={item+"_enrolled_tag"}></div>
-                        <button type="button" className="flex items-center mt-4 text-white bg-transparent text-sm uppercase font-medium rounded hover:underline focus:outline-none" onClick={() => viewCourse(item)}>
-                        <span>View Course</span>
-                        <svg className="h-5 w-5 mx-2" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                        </button>
-
-                    </div>
-                    </div>
-                </div>
-                </main>
+                        <div key={pos} className="w-full h-96 md:mx-4 rounded-md overflow-hidden bg-cover bg-center md:w-3/4" style={{backgroundImage: "url()"}} alt="Course Thumbnail" id={item+"_enrolled_card_thumbnail"}>
+                            <div className="bg-gray-900 bg-opacity-70 flex items-center h-full dark:bg-opacity-50">
+                                <div className="px-10 max-w-xl">
+                                    <p className="mb-4 text-sm text-yellow-500 dark:text-neutral-500 dark:text-yellow-500"><span id={item+"_enrolled_eduLvl"}></span> <span id={item+"_enrolled_sub"}></span></p>
+                                    <h2 className="text-2xl text-white font-semibold" id={item+"_enrolled_title"}></h2>
+                                    <p className="mt-2 mb-3 text-gray-300 text-sm [text-shadow:_0_1px_0_rgb(0_0_0_/_30%)]" id={item+"_enrolled_des"}></p>
+                                    <div className="gap-4" id={item+"_enrolled_tag"}></div>
+                                    <button type="button" className="flex items-center mt-4 text-white bg-transparent text-sm uppercase font-medium rounded hover:underline focus:outline-none" onClick={() => viewCourse(item)}>
+                                        <span>View Course</span>
+                                        <svg className="h-5 w-5 mx-2" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
                 );
             });
         };
@@ -133,21 +135,20 @@ const Profile = (props) => {
                 }
                 return(
                     <main className="my-8">
-                    <div key={pos} className="w-full h-96 md:mx-4 rounded-md overflow-hidden bg-cover bg-center md:w-3/4" style={{backgroundImage: "url()"}} alt="Course Thumbnail" id={item+"_card_thumbnail"}>
-                    <div className="bg-gray-900 bg-opacity-70 flex items-center h-full dark:bg-opacity-50">
-                        <div className="px-10 max-w-xl">
-                        <p className="mb-4 text-sm text-yellow-500 dark:text-neutral-500 dark:text-yellow-500"><span id={item+"_eduLvl"}></span> <span id={item+"_sub"}></span></p>
-                        <h2 className="text-2xl text-white font-semibold" id={item+"_title"}></h2>
-                        <p className="mt-2 mb-3 text-gray-300 text-sm [text-shadow:_0_1px_0_rgb(0_0_0_/_30%)]" id={item+"_des"}></p>
-                            <div className="gap-4" id={item+"_tag"}></div>
-                            <button type="button" className="flex items-center mt-4 text-white bg-transparent text-sm uppercase font-medium rounded hover:underline focus:outline-none" onClick={() => viewCourse(item)}>
-                            <span>View Course</span>
-                            <svg className="h-5 w-5 mx-2" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                            </button>
-    
+                        <div key={pos} className="w-full h-96 md:mx-4 rounded-md overflow-hidden bg-cover bg-center md:w-3/4" style={{backgroundImage: "url()"}} alt="Course Thumbnail" id={item+"_card_thumbnail"}>
+                            <div className="bg-gray-900 bg-opacity-70 flex items-center h-full dark:bg-opacity-50">
+                                <div className="px-10 max-w-xl">
+                                    <p className="mb-4 text-sm text-yellow-500 dark:text-neutral-500 dark:text-yellow-500"><span id={item+"_eduLvl"}></span> <span id={item+"_sub"}></span></p>
+                                    <h2 className="text-2xl text-white font-semibold" id={item+"_title"}></h2>
+                                    <p className="mt-2 mb-3 text-gray-300 text-sm [text-shadow:_0_1px_0_rgb(0_0_0_/_30%)]" id={item+"_des"}></p>
+                                    <div className="gap-4" id={item+"_tag"}></div>
+                                    <button type="button" className="flex items-center mt-4 text-white bg-transparent text-sm uppercase font-medium rounded hover:underline focus:outline-none" onClick={() => viewCourse(item)}>
+                                        <span>View Course</span>
+                                        <svg className="h-5 w-5 mx-2" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                        </div>
-                    </div>
                     </main>
                 );
             });
@@ -192,21 +193,20 @@ const Profile = (props) => {
             }
             return(
                 <main className="my-8">
-                <div key={pos} className="w-full h-96 md:mx-4 rounded-md overflow-hidden bg-cover bg-center md:w-3/4" style={{backgroundImage: "url()"}} alt="Course Thumbnail" id={item+"_card_thumbnail"}>
-                <div className="bg-gray-900 bg-opacity-70 flex items-center h-full dark:bg-opacity-50">
-                    <div className="px-10 max-w-xl">
-                    <p className="mb-4 text-sm text-yellow-500 dark:text-neutral-500 dark:text-yellow-500"><span id={item+"_lesson_eduLvl"}></span> <span id={item+"_lesson_sub"}></span></p>
-                    <h2 className="text-2xl text-white font-semibold" id={item+"_lesson_title"}></h2>
-                    <p className="mt-2 mb-3 text-gray-300 text-sm [text-shadow:_0_1px_0_rgb(0_0_0_/_30%)]" id={item+"_lesson_des"}></p>
-                        <div className="gap-4" id={item+"_lesson_tag"}></div>
-                        <button type="button" className="flex items-center mt-4 text-white bg-transparent text-sm uppercase font-medium rounded hover:underline focus:outline-none" onClick={() => viewCourse(item)}>
-                        <span>View Course</span>
-                        <svg className="h-5 w-5 mx-2" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                        </button>
-
+                    <div key={pos} className="w-full h-96 md:mx-4 rounded-md overflow-hidden bg-cover bg-center md:w-3/4" style={{backgroundImage: "url()"}} alt="Course Thumbnail" id={item+"_card_thumbnail"}>
+                        <div className="bg-gray-900 bg-opacity-70 flex items-center h-full dark:bg-opacity-50">
+                            <div className="px-10 max-w-xl">
+                                <p className="mb-4 text-sm text-yellow-500 dark:text-neutral-500 dark:text-yellow-500"><span id={item+"_lesson_eduLvl"}></span> <span id={item+"_lesson_sub"}></span></p>
+                                <h2 className="text-2xl text-white font-semibold" id={item+"_lesson_title"}></h2>
+                                <p className="mt-2 mb-3 text-gray-300 text-sm [text-shadow:_0_1px_0_rgb(0_0_0_/_30%)]" id={item+"_lesson_des"}></p>
+                                <div className="gap-4" id={item+"_lesson_tag"}></div>
+                                <button type="button" className="flex items-center mt-4 text-white bg-transparent text-sm uppercase font-medium rounded hover:underline focus:outline-none" onClick={() => viewCourse(item)}>
+                                <span>View Course</span>
+                                <svg className="h-5 w-5 mx-2" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    </div>
-                </div>
                 </main>
             );
         });
@@ -261,44 +261,45 @@ const Profile = (props) => {
     return (
         <>
            <div className="bg-gray-100">
-    <div className="container mx-auto py-8">
-        <div className="grid grid-cols-4 sm:grid-cols-12 gap-6 px-4">
-            <div className="col-span-4 sm:col-span-3">
-                <div className="bg-white shadow rounded-lg p-6">
-                    <div className="flex flex-col items-center">
-                        <img src="" className="w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0" alt="Profile Image" id="t_img_profile">
-                        </img>
-                         <h1 className="text-xl font-bold">John Doe</h1>
-                         <p id="t_name_profile" className="text-gray-600"></p>
-                         <p id="t_role_profile" className="text-gray-600"></p>
-                    </div>
-                    <hr className="my-6 border-t border-gray-300"/>
-                    <div className="flex flex-col">
-                        <span className="text-gray-600 uppercase font-bold tracking-wider mb-2">Personal information</span>
-                        <ul>
-                            <li className="mb-2">Role:</li>
-                            <li className="mb-2">Educational Level:</li>
-                            <li className="mb-2">Country:</li>
-                            <li className="mb-2">Enrolled course:</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div className="col-span-4 sm:col-span-9">
-                <div className="bg-white shadow rounded-lg p-6">
-                    {props.state.user.uid === id && <>
-                        <h3 className="text-xl font-bold mb-4">Enrolled Course</h3>
-                        <div id="div_enrolled"></div>
-                        <h3 className="text-xl font-bold mt-6 mb-4">Wishlist</h3>
-                        <div id="div_wishlist"></div>
-                    </>}
-                    <div id="div_teacher"></div>
+                <div className="container mx-auto py-8">
+                    <div className="grid grid-cols-4 sm:grid-cols-12 gap-6 px-4">
+                        <div className="col-span-4 sm:col-span-3">
+                            <div className="bg-white shadow rounded-lg p-6">
+                                <div className="flex flex-col items-center">
+                                    <img src="" className="w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0" alt="Profile Image" id="t_img_profile">
+                                    </img>
+                                    <h1 className="text-xl font-bold" id="t_name_profile"></h1>
+                                    <p id="t_role_profile" className="text-gray-600"></p>
+                                </div>
+                                <hr className="my-6 border-t border-gray-300"/>
+                                <div className="flex flex-col">
+                                    <span className="text-gray-600 uppercase font-bold tracking-wider mb-2">Personal information</span>
+                                    <ul className="grid grid-cols-2 gap-2">
+                                        <li className="font-semibold text-neutral-600 dark:text-neutral-300 mb-2">Educational Level</li>
+                                        <li className="text-neutral-600 dark:text-neutral-300 mb-2" id="t_eduLvl_profile"></li>
+                                        <li className="font-semibold text-neutral-600 dark:text-neutral-300 mb-2">Origin</li>
+                                        <li className="text-neutral-600 dark:text-neutral-300 mb-2" id="t_ori_profile"></li>
+                                        <li className="font-semibold text-neutral-600 dark:text-neutral-300 mb-2">No. of enrolled course</li>
+                                        <li className="text-neutral-600 dark:text-neutral-300 mb-2" id="t_noEnrolled_profile"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-span-4 sm:col-span-9">
+                            <div className="bg-white shadow rounded-lg p-6">
+                                {props.state.user.uid === id && <>
+                                    <h3 className="text-xl font-bold mb-4">Enrolled Course</h3>
+                                    <div id="div_enrolled"></div>
+                                    <h3 className="text-xl font-bold mt-6 mb-4">Wishlist</h3>
+                                    <div id="div_wishlist"></div>
+                                </>}
+                                <div id="div_teacher"></div>
 
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
         </>
     );
 };
