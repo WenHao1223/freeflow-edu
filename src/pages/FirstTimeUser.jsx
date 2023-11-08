@@ -102,15 +102,15 @@ class FirstTimeUser extends Component {
 
     render() {
         console.log(this.state)
-        // if(this.state.user){
-        //     if (this.state.user.metadata.creationTime === this.state.user.metadata.lastSignInTime) {
-        //         console.log("first-time user");
-        //     } else {
-        //         return <Navigate to="/freeflow-edu/"></Navigate>
-        //     }
-        // } else {
-        //     return <Navigate to="/freeflow-edu/"></Navigate>
-        // }
+        if(this.state.user){
+            if (this.state.user.metadata.creationTime === this.state.user.metadata.lastSignInTime) {
+                console.log("first-time user");
+            } else {
+                return <Navigate to="/freeflow-edu/"></Navigate>
+            }
+        } else {
+            return <Navigate to="/freeflow-edu/"></Navigate>
+        }
 
         const questionCards = isArrayEmpty(this.data) ? [] : this.data.map((item, pos) => {
             const optionButtons = isArrayEmpty(item.options) ? [] : item.options.map((option, posItem) => {
