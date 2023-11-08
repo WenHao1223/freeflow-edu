@@ -1,4 +1,6 @@
 #root {
+  background-attachment: fixed;
+  background-size: cover;
   padding: 2rem;
 }
 
