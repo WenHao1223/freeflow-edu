@@ -119,7 +119,7 @@ const Profile = (props) => {
         }, [enrolled]);
     
         const GenerateCard = () => {
-            return isArrayEmpty(enrolled) ? [] : wishlist.map((item, pos) => {
+            return isArrayEmpty(wishlist) ? [] : wishlist.map((item, pos) => {
                 const viewCourse = (docID) => {
                     return navigate("../course/" + docID);
                 }
