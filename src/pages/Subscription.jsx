@@ -44,10 +44,10 @@ const Subscription = () => {
                         <div className="block h-full rounded-lg bg-orange-500 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
                           <div className="border-b-2 border-black border-opacity-100 p-6 text-center dark:bg-orange-500">
                             <p className="mb-4 text-sm uppercase">
-                              <strong className="text-balck">Recommended</strong>
+                              <strong className="text-black">Recommended</strong>
                             </p>
                             <h3 className="mb-6 text-3xl">
-                              <strong className="text-balck">$ 19</strong>
+                              <strong className="text-black">$ 19</strong>
                               <small className="text-base text-black dark:text-black">/month</small>
                             </h3>
                             <button type="button" className="inline-block w-full rounded bg-[hsl(0,0%,95%)] px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white transition duration-150 ease-in-out hover:bg-[hsl(0,0%,93%)] focus:bg-[hsl(0,0%,95%)] focus:outline-none focus:ring-0 active:bg-[hsl(0,0%,90%)] bg-neutral-950 hover:text-black" data-te-ripple-init data-te-ripple-color="light"> Buy
