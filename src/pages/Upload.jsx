@@ -149,7 +149,7 @@ class Upload extends Component {
                             $("#main").css("pointerEvents", "inherit");
                             $("#main").attr("disabled", false);
                             await alert("Upload success!");
-                            navigate("/freeflow-edu/");
+                            navigate("/");
                         }
                     } else {
                         alert("Please upload required image / video / notes.")
