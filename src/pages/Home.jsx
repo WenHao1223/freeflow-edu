@@ -59,7 +59,7 @@ const Home = (props) => {
                 }
                 return(
                     <main className="my-8">
-                        <div key={pos} className="w-full h-96 md:mx-4 rounded-md overflow-hidden bg-cover bg-center md:w-1/2" style={{backgroundImage: "url()"}} alt="Course Thumbnail" id={item+"_card_thumbnail"}>
+                        <div key={pos} className="w-full h-96 md:mx-4 rounded-md overflow-hidden bg-cover bg-center lg:w-1/2 md:w-2/3 sm:w-full" style={{backgroundImage: "url()"}} alt="Course Thumbnail" id={item+"_card_thumbnail"}>
                             <div className="bg-gray-900 bg-opacity-70 flex items-center h-full dark:bg-opacity-50">
                                 <div className="px-10 max-w-xl">
                                         <p className="mb-4 text-sm text-yellow-500 dark:text-neutral-500 dark:text-yellow-500"><span id={item+"_eduLvl"}></span> <span id={item+"_sub"}></span></p>
