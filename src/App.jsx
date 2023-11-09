@@ -153,8 +153,7 @@ class App extends Component {
 
     render() {
         if (!(this.state.user || JSON.parse(localStorage.getItem("user")))){
-            alert("Session has expired. Login again.");
-            // console.log("Session has expired. Login again.")
+            console.log("Session has expired. Login again.");
 
             return (
                 <BrowserRouter>
