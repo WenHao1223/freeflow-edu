@@ -280,7 +280,7 @@ const Profile = (props) => {
                                         <li className="font-semibold text-neutral-600 dark:text-neutral-300 mb-2">Origin</li>
                                         <li className="text-neutral-600 dark:text-neutral-300 mb-2" id="t_ori_profile"></li>
                                         <li className="font-semibold text-neutral-600 dark:text-neutral-300 mb-2">No. of enrolled course</li>
-                                        <li className="text-neutral-600 dark:text-neutral-300 mb-2" id="t_noEnrolled_profile"></li>
+                                        <li className="text-neutral-600 dark:text-neutral-300 mb-2" id="t_noEnrolled_profile">0</li>
                                     </ul>
                                 </div>
                             </div>
