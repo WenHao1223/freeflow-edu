@@ -257,7 +257,7 @@ class Register extends Component {
                                         <input onKeyUp={this.handleKeyPress} className="w-full px-8 py-4 mb-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5" type="password" placeholder="Password" id="t_password" />
                                         <input onKeyUp={this.handleKeyPress} className="w-full px-8 py-4 mb-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5" type="password" placeholder="Confirm Password" id="t_confirm_password" />
                                         <label className="w-full py-2 inline-block">
-                                            <input onKeyUp={this.handleKeyPress} type="checkbox" id="c_privacy"/> &nbsp;I agree to the <a href="privacy_policy.html" target="_blank">Privacy Policy</a>, and <a href="terms_and_conditions.html" target="_blank">Terms and Conditions</a> of FreeFlow Edu app.
+                                            <input onKeyUp={this.handleKeyPress} type="checkbox" id="c_privacy"/> &nbsp;I agree to the <a href="privacy_policy.html" target="_blank">Privacy Policy</a>, <a href="terms_and_conditions.html" target="_blank">Terms and Conditions</a>, and <a href="data_deletion.html" target="_blank">Data Deletion Policy</a> of FreeFlow Edu app.
                                         </label>
                                         <br>
                                         </br>
