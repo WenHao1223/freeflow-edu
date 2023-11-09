@@ -1,5 +1,6 @@
 import React, { Component, useState, useEffect } from "react";
 import { Navigate, useNavigate, Link } from "react-router-dom";
+
 import { createRoot } from 'react-dom/client';
 
 // firebase
@@ -38,7 +39,7 @@ const Home = (props) => {
                 if(!result.exists()){
                     if(user.metadata.creationTime === user.metadata.lastSignInTime){
                         console.log("first-time user");
-                        navigate("/first-time-user");
+                        navigate("/freeflow-edu/first-time-user");
                     } else {
                         console.log("registered");
                     }

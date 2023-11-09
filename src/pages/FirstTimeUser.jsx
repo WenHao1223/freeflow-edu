@@ -106,10 +106,10 @@ class FirstTimeUser extends Component {
             if (this.state.user.metadata.creationTime === this.state.user.metadata.lastSignInTime) {
                 console.log("first-time user");
             } else {
-                return <Navigate to="/"></Navigate>
+                return <Navigate to="/freeflow-edu/"></Navigate>
             }
         } else {
-            return <Navigate to="/"></Navigate>
+            return <Navigate to="/freeflow-edu/"></Navigate>
         }
 
         const questionCards = isArrayEmpty(this.data) ? [] : this.data.map((item, pos) => {
@@ -135,7 +135,7 @@ class FirstTimeUser extends Component {
         if(this.state.currentQuestion > 4){
             console.log("End of survey");
             this.uploadData();
-            return <Navigate to="/"></Navigate>;
+            return <Navigate to="/freeflow-edu/"></Navigate>;
         }
 
         return(
