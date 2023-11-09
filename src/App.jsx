@@ -159,7 +159,8 @@ class App extends Component {
             return (
                 <BrowserRouter>
                     <Routes>
-                        <Route exact path="/freeflow-edu/" element={<LoginNavbar/>}>
+                        {/* <Route exact path="/freeflow-edu/" element={<LoginNavbar/>}> */}
+                        <Route exact path="/" element={<LoginNavbar/>}>
                             <Route index active element={<Login state={this.state} updateUserState={this.updateUserState}/>}/>
                             <Route path="register" element={<Register state={this.state} updateUserState={this.updateUserState}/>}/>
                             <Route path="sign-out" element={<SignOut/>}/>
@@ -172,7 +173,8 @@ class App extends Component {
             return (
                 <BrowserRouter>
                     <Routes>
-                        <Route exact path="/freeflow-edu/" element={<HomeNavbar state={this.state} renderNotConnectedContainer={this.renderNotConnectedContainer} updateRoleState={this.updateRoleState}/>}>
+                        {/* <Route exact path="/freeflow-edu/" element={<HomeNavbar state={this.state} renderNotConnectedContainer={this.renderNotConnectedContainer} updateRoleState={this.updateRoleState}/>}> */}
+                        <Route exact path="/" element={<HomeNavbar state={this.state} renderNotConnectedContainer={this.renderNotConnectedContainer} updateRoleState={this.updateRoleState}/>}>
                             <Route index active element={<Home state={this.state}/>}/>
                             <Route path="profile/:id" element={<Profile state={this.state}/>}/>
                             <Route path="sign-out" element={<SignOut state={this.state} updateUserState={this.updateUserState}/>}/>

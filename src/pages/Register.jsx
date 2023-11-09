@@ -117,7 +117,8 @@ class Register extends Component {
     render() {
         if(this.state.user){
             console.log("loged in");
-            return <Navigate to="/freeflow-edu/"></Navigate>
+            // return <Navigate to="/freeflow-edu/"></Navigate>
+            return <Navigate to="/"></Navigate>
         }
 
         console.log(this.state.user);

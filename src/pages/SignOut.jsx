@@ -48,7 +48,8 @@ class SignOut extends Component {
                     
                         <div className="mt-6 flex justify-center gap-x-4">
                             <Link onClick={this.logout} className="py-2.5 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm">Sign out</Link>
-                            <Link to="/freeflow-edu/" type="button" className="py-2.5 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm">
+                            {/* <Link to="/freeflow-edu/" type="button" className="py-2.5 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm"> */}
+                            <Link to="/" type="button" className="py-2.5 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm">
                                 Cancel
                             </Link>
                         </div>
@@ -57,7 +58,8 @@ class SignOut extends Component {
                 </div>
             );
         }
-        return <Navigate to="/freeflow-edu/"></Navigate>
+        // return <Navigate to="/freeflow-edu/"></Navigate>
+        return <Navigate to="/"></Navigate>
     }
 }
 
